@@ -1,0 +1,437 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Programmieren lernen</title>
+<style>
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body {
+    background: #0f0f1a;
+    color: #e0e0e0;
+    font-family: 'Segoe UI', system-ui, sans-serif;
+    line-height: 1.6;
+    padding: env(safe-area-inset-top, 20px) 16px env(safe-area-inset-bottom, 40px);
+    max-width: 800px;
+    margin: 0 auto;
+  }
+  h1 {
+    color: #4ade80;
+    font-size: 1.9rem;
+    margin: 20px 0 10px;
+    text-shadow: 0 0 12px rgba(74,222,128,0.4);
+  }
+  h2 {
+    color: #4ade80;
+    font-size: 1.3rem;
+    margin: 30px 0 8px;
+    border-bottom: 1px solid #2a2a3e;
+    padding-bottom: 6px;
+  }
+  h3 { color: #fbbf24; margin: 18px 0 6px; font-size: 1.05rem; }
+  p { margin: 8px 0; }
+  ul, ol { margin: 8px 0 8px 22px; }
+  li { margin: 4px 0; }
+  code {
+    background: #1a1a2e;
+    color: #fbbf24;
+    padding: 2px 6px;
+    border-radius: 4px;
+    font-family: 'Fira Code', Consolas, monospace;
+    font-size: 0.92em;
+  }
+  .lesson {
+    background: #14142a;
+    border: 1px solid #2a2a3e;
+    border-radius: 10px;
+    padding: 16px;
+    margin: 18px 0;
+  }
+  .editor {
+    margin-top: 12px;
+  }
+  textarea {
+    width: 100%;
+    background: #0a0a14;
+    color: #e0e0e0;
+    border: 1px solid #4ade80;
+    border-radius: 6px;
+    padding: 10px;
+    font-family: 'Fira Code', Consolas, monospace;
+    font-size: 0.9rem;
+    min-height: 110px;
+    resize: vertical;
+  }
+  .row { display: flex; gap: 8px; margin-top: 8px; flex-wrap: wrap; }
+  button.run {
+    background: #4ade80;
+    color: #0f0f1a;
+    border: none;
+    padding: 8px 16px;
+    border-radius: 6px;
+    font-weight: bold;
+    cursor: pointer;
+  }
+  button.run:hover { box-shadow: 0 0 12px rgba(74,222,128,0.5); }
+  button.clear {
+    background: transparent;
+    color: #888;
+    border: 1px solid #444;
+    padding: 8px 14px;
+    border-radius: 6px;
+    cursor: pointer;
+  }
+  .output {
+    background: #0a0a14;
+    border: 1px dashed #2a2a3e;
+    border-radius: 6px;
+    padding: 10px;
+    margin-top: 8px;
+    min-height: 40px;
+    white-space: pre-wrap;
+    font-family: 'Fira Code', Consolas, monospace;
+    font-size: 0.88rem;
+    color: #93c5fd;
+  }
+  .output.err { color: #f87171; border-color: #7f1d1d; }
+  .tip {
+    background: rgba(74,222,128,0.08);
+    border-left: 3px solid #4ade80;
+    padding: 10px 12px;
+    margin: 10px 0;
+    border-radius: 4px;
+    font-size: 0.95em;
+  }
+  .nav {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px;
+    margin: 12px 0 20px;
+  }
+  .nav a {
+    background: #1a1a2e;
+    color: #4ade80;
+    text-decoration: none;
+    padding: 6px 10px;
+    border-radius: 6px;
+    border: 1px solid #2a2a3e;
+    font-size: 0.85rem;
+  }
+  .nav a:hover { background: #4ade80; color: #0f0f1a; }
+  .intro { color: #aab; font-size: 1.02rem; }
+  footer {
+    margin-top: 40px;
+    padding-top: 20px;
+    border-top: 1px solid #2a2a3e;
+    color: #888;
+    font-size: 0.85rem;
+    text-align: center;
+  }
+  a.snake { color: #4ade80; }
+</style>
+</head>
+<body>
+
+<h1>👋 Willkommen — lass uns programmieren lernen</h1>
+<p class="intro">
+  Dieser Kurs ist eine kleine Einführung in <strong>JavaScript</strong>, die Sprache, in der z. B. dein
+  <a class="snake" href="index.html">Snake-Spiel</a> geschrieben ist. Du brauchst nichts zu installieren —
+  alle Beispiele kannst du direkt hier im Browser ausführen und verändern.
+</p>
+
+<div class="nav">
+  <a href="#l1">1 · Hallo Welt</a>
+  <a href="#l2">2 · Variablen</a>
+  <a href="#l3">3 · Rechnen & Text</a>
+  <a href="#l4">4 · Bedingungen</a>
+  <a href="#l5">5 · Schleifen</a>
+  <a href="#l6">6 · Funktionen</a>
+  <a href="#l7">7 · Arrays</a>
+  <a href="#l8">8 · Snake verstehen</a>
+  <a href="#l9">9 · Weiterlernen</a>
+</div>
+
+<!-- LEKTION 1 -->
+<div class="lesson" id="l1">
+  <h2>1 · Dein erstes Programm: „Hallo Welt“</h2>
+  <p>
+    Mit <code>console.log(...)</code> gibt JavaScript Text aus. Wir leiten die Ausgabe unten in das
+    schwarze Feld um, damit du sie sehen kannst.
+  </p>
+  <div class="editor">
+    <textarea data-id="e1">console.log("Hallo Welt!");
+console.log("Ich lerne programmieren.");</textarea>
+    <div class="row">
+      <button class="run" data-run="e1">▶ Ausführen</button>
+      <button class="clear" data-clear="e1">Ausgabe leeren</button>
+    </div>
+    <div class="output" data-out="e1"></div>
+  </div>
+  <div class="tip">💡 Tipp: Probier ruhig herum! Ändere den Text in den Anführungszeichen und drücke wieder „Ausführen“.</div>
+</div>
+
+<!-- LEKTION 2 -->
+<div class="lesson" id="l2">
+  <h2>2 · Variablen — Werte merken</h2>
+  <p>
+    Eine <strong>Variable</strong> ist wie eine Schublade mit einem Namen, in der du etwas ablegst.
+    In modernem JavaScript benutzt man dafür <code>let</code> (kann sich ändern) oder
+    <code>const</code> (bleibt konstant).
+  </p>
+  <div class="editor">
+    <textarea data-id="e2">let name = "Ronny";
+const alter = 30;
+
+console.log("Hallo " + name + "!");
+console.log("Du bist " + alter + " Jahre alt.");
+
+name = "Anna";
+console.log("Jetzt heißt du " + name + ".");</textarea>
+    <div class="row">
+      <button class="run" data-run="e2">▶ Ausführen</button>
+      <button class="clear" data-clear="e2">Ausgabe leeren</button>
+    </div>
+    <div class="output" data-out="e2"></div>
+  </div>
+  <h3>Aufgabe</h3>
+  <p>Erstelle eine Variable <code>lieblingsfarbe</code> und gib „Meine Lieblingsfarbe ist …“ aus.</p>
+</div>
+
+<!-- LEKTION 3 -->
+<div class="lesson" id="l3">
+  <h2>3 · Rechnen und Text verknüpfen</h2>
+  <p>
+    JavaScript kann rechnen wie ein Taschenrechner: <code>+</code>, <code>-</code>, <code>*</code>, <code>/</code>.
+    Mit Backticks (<code>`</code>) und <code>${...}</code> kannst du Werte hübsch in Text einbauen
+    (sogenannte <em>Template-Strings</em>).
+  </p>
+  <div class="editor">
+    <textarea data-id="e3">const a = 7;
+const b = 3;
+
+console.log(`Summe:    ${a + b}`);
+console.log(`Differenz: ${a - b}`);
+console.log(`Produkt:   ${a * b}`);
+console.log(`Quotient:  ${a / b}`);
+console.log(`Rest:      ${a % b}`);</textarea>
+    <div class="row">
+      <button class="run" data-run="e3">▶ Ausführen</button>
+      <button class="clear" data-clear="e3">Ausgabe leeren</button>
+    </div>
+    <div class="output" data-out="e3"></div>
+  </div>
+</div>
+
+<!-- LEKTION 4 -->
+<div class="lesson" id="l4">
+  <h2>4 · Entscheidungen treffen: <code>if</code> / <code>else</code></h2>
+  <p>
+    Mit <code>if</code> prüft das Programm eine Bedingung. Ist sie <code>true</code> (wahr), läuft der eine
+    Code, sonst der andere. Vergleichsoperatoren: <code>===</code> (gleich), <code>!==</code> (ungleich),
+    <code>&lt;</code>, <code>&gt;</code>, <code>&lt;=</code>, <code>&gt;=</code>.
+  </p>
+  <div class="editor">
+    <textarea data-id="e4">const punkte = 85;
+
+if (punkte >= 90) {
+  console.log("Note: Sehr gut 🌟");
+} else if (punkte >= 75) {
+  console.log("Note: Gut 👍");
+} else if (punkte >= 50) {
+  console.log("Note: Bestanden 🙂");
+} else {
+  console.log("Note: Nochmal üben 💪");
+}</textarea>
+    <div class="row">
+      <button class="run" data-run="e4">▶ Ausführen</button>
+      <button class="clear" data-clear="e4">Ausgabe leeren</button>
+    </div>
+    <div class="output" data-out="e4"></div>
+  </div>
+  <h3>Aufgabe</h3>
+  <p>Ändere <code>punkte</code> und schaue, welche Note ausgegeben wird.</p>
+</div>
+
+<!-- LEKTION 5 -->
+<div class="lesson" id="l5">
+  <h2>5 · Schleifen — etwas mehrfach tun</h2>
+  <p>
+    Mit einer <code>for</code>-Schleife wiederholst du Code mehrmals. Hier zählen wir von 1 bis 5:
+  </p>
+  <div class="editor">
+    <textarea data-id="e5">for (let i = 1; i <= 5; i++) {
+  console.log("Zähler: " + i);
+}
+
+console.log("--- Mal-Tabelle der 7 ---");
+for (let i = 1; i <= 10; i++) {
+  console.log(`7 × ${i} = ${7 * i}`);
+}</textarea>
+    <div class="row">
+      <button class="run" data-run="e5">▶ Ausführen</button>
+      <button class="clear" data-clear="e5">Ausgabe leeren</button>
+    </div>
+    <div class="output" data-out="e5"></div>
+  </div>
+</div>
+
+<!-- LEKTION 6 -->
+<div class="lesson" id="l6">
+  <h2>6 · Funktionen — eigene Befehle bauen</h2>
+  <p>
+    Eine <strong>Funktion</strong> ist ein wiederverwendbares Stück Code mit Namen. Du steckst etwas rein
+    (Parameter) und bekommst etwas zurück (<code>return</code>).
+  </p>
+  <div class="editor">
+    <textarea data-id="e6">function begruessen(name) {
+  return "Hallo " + name + "!";
+}
+
+function quadrat(x) {
+  return x * x;
+}
+
+console.log(begruessen("Ronny"));
+console.log(begruessen("Welt"));
+console.log("Quadrat von 6 = " + quadrat(6));</textarea>
+    <div class="row">
+      <button class="run" data-run="e6">▶ Ausführen</button>
+      <button class="clear" data-clear="e6">Ausgabe leeren</button>
+    </div>
+    <div class="output" data-out="e6"></div>
+  </div>
+  <h3>Aufgabe</h3>
+  <p>Schreib eine Funktion <code>addiere(a, b)</code>, die die Summe zurückgibt.</p>
+</div>
+
+<!-- LEKTION 7 -->
+<div class="lesson" id="l7">
+  <h2>7 · Arrays — Listen von Werten</h2>
+  <p>
+    Ein <strong>Array</strong> ist eine Liste. Im Snake-Spiel ist die Schlange genau so eine Liste —
+    eine Reihe von Koordinaten!
+  </p>
+  <div class="editor">
+    <textarea data-id="e7">const obst = ["Apfel", "Banane", "Kirsche"];
+
+console.log("Erstes Element:  " + obst[0]);
+console.log("Anzahl Elemente: " + obst.length);
+
+obst.push("Dattel");          // hinten anhängen
+console.log("Nach push: " + obst.join(", "));
+
+for (const o of obst) {
+  console.log("- " + o);
+}</textarea>
+    <div class="row">
+      <button class="run" data-run="e7">▶ Ausführen</button>
+      <button class="clear" data-clear="e7">Ausgabe leeren</button>
+    </div>
+    <div class="output" data-out="e7"></div>
+  </div>
+</div>
+
+<!-- LEKTION 8 -->
+<div class="lesson" id="l8">
+  <h2>8 · Dein Snake-Spiel verstehen 🐍</h2>
+  <p>
+    Mit dem Gelernten kannst du jetzt Teile aus <a class="snake" href="index.html">index.html</a> lesen.
+    Schau dir diesen Ausschnitt an:
+  </p>
+  <div class="editor">
+    <textarea data-id="e8">// So sieht die Schlange am Anfang aus:
+const snake = [
+  { x: 10, y: 10 },  // Kopf
+  { x: 9,  y: 10 },
+  { x: 8,  y: 10 },  // Schwanz
+];
+
+// Richtung: 1 nach rechts
+const dir = { x: 1, y: 0 };
+
+// Neue Kopfposition berechnen:
+const head = { x: snake[0].x + dir.x, y: snake[0].y + dir.y };
+
+console.log("Alter Kopf: " + JSON.stringify(snake[0]));
+console.log("Neuer Kopf: " + JSON.stringify(head));
+console.log("Länge der Schlange: " + snake.length);</textarea>
+    <div class="row">
+      <button class="run" data-run="e8">▶ Ausführen</button>
+      <button class="clear" data-clear="e8">Ausgabe leeren</button>
+    </div>
+    <div class="output" data-out="e8"></div>
+  </div>
+  <p>
+    Im echten Spiel passiert genau das ~10× pro Sekunde — daraus entsteht Bewegung. Die Schlange ist
+    ein <strong>Array</strong>, jede Bewegung ein <strong>Funktionsaufruf</strong>, Kollisionen sind
+    <strong>if-Abfragen</strong>.
+  </p>
+</div>
+
+<!-- LEKTION 9 -->
+<div class="lesson" id="l9">
+  <h2>9 · Wie geht es weiter?</h2>
+  <ol>
+    <li>Spiele mit den Beispielen oben — verändere Zahlen, Texte, Bedingungen.</li>
+    <li>Öffne <code>index.html</code> in einem Editor und versuche, eine Zeile zu ändern (z. B. die Spielfarbe <code>#4ade80</code>).</li>
+    <li>Lerne als nächstes: <strong>Objekte</strong>, <strong>DOM</strong> (Webseite verändern) und <strong>Events</strong> (auf Klicks reagieren).</li>
+    <li>Gute kostenlose Quellen: developer.mozilla.org (MDN), javascript.info.</li>
+  </ol>
+  <div class="tip">
+    🚀 Mein Tipp: Bau dir kleine eigene Projekte. Ein Würfelspiel, eine Einkaufsliste, ein Timer —
+    so lernt man am schnellsten.
+  </div>
+</div>
+
+<footer>
+  Viel Spaß beim Coden! · Diese Seite läuft komplett im Browser, deine Eingaben verlassen dein Gerät nicht.
+</footer>
+
+<script>
+(() => {
+  // Schaltflächen verdrahten
+  document.querySelectorAll('button.run').forEach(btn => {
+    btn.addEventListener('click', () => runEditor(btn.dataset.run));
+  });
+  document.querySelectorAll('button.clear').forEach(btn => {
+    btn.addEventListener('click', () => {
+      const out = document.querySelector(`[data-out="${btn.dataset.clear}"]`);
+      out.textContent = '';
+      out.classList.remove('err');
+    });
+  });
+
+  function runEditor(id) {
+    const code = document.querySelector(`[data-id="${id}"]`).value;
+    const out  = document.querySelector(`[data-out="${id}"]`);
+    out.textContent = '';
+    out.classList.remove('err');
+
+    // Eigene console.log-Variante, die ins Ausgabefeld schreibt
+    const lines = [];
+    const fakeConsole = {
+      log: (...args) => lines.push(args.map(formatArg).join(' ')),
+      error: (...args) => lines.push('⚠ ' + args.map(formatArg).join(' ')),
+      warn:  (...args) => lines.push('! ' + args.map(formatArg).join(' ')),
+    };
+
+    try {
+      // Code in einer Funktion ausführen, damit let/const lokal bleiben
+      const fn = new Function('console', `"use strict";\n${code}`);
+      fn(fakeConsole);
+      out.textContent = lines.join('\n') || '(keine Ausgabe)';
+    } catch (err) {
+      out.classList.add('err');
+      out.textContent = (lines.length ? lines.join('\n') + '\n' : '')
+        + 'Fehler: ' + err.message;
+    }
+  }
+
+  function formatArg(a) {
+    if (typeof a === 'string') return a;
+    try { return JSON.stringify(a); } catch { return String(a); }
+  }
+})();
+</script>
+</body>
+</html>
