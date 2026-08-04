@@ -1,0 +1,745 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="theme-color" content="#0f1115">
+<title>Grundlagen der Fotografie — Lernseite</title>
+<style>
+  :root {
+    --bg: #0f1115;
+    --bg-elev: #171a21;
+    --bg-elev-2: #1f232c;
+    --border: #2a2f3a;
+    --text: #e7e9ee;
+    --text-dim: #9aa2b1;
+    --accent: #ff9d42;
+    --accent-2: #4ade80;
+    --accent-3: #60a5fa;
+    --danger: #f87171;
+    --radius: 14px;
+    --shadow: 0 8px 24px rgba(0,0,0,.35);
+    font-size: 16px;
+  }
+  * { box-sizing: border-box; }
+  html { scroll-behavior: smooth; }
+  body {
+    margin: 0;
+    background: var(--bg);
+    color: var(--text);
+    font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
+    line-height: 1.55;
+  }
+  a { color: var(--accent-3); }
+
+  /* ---------- Layout ---------- */
+  .app {
+    display: grid;
+    grid-template-columns: 260px 1fr;
+    min-height: 100vh;
+  }
+  .sidebar {
+    position: sticky;
+    top: 0;
+    height: 100vh;
+    overflow-y: auto;
+    background: var(--bg-elev);
+    border-right: 1px solid var(--border);
+    padding: 20px 14px 40px;
+  }
+  .brand {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 6px 8px 18px;
+    font-weight: 700;
+    font-size: 1.05rem;
+  }
+  .brand .dot { width: 10px; height: 10px; border-radius: 50%; background: var(--accent); box-shadow: 0 0 10px var(--accent); }
+
+  .progress-wrap { padding: 0 8px 18px; }
+  .progress-label { display: flex; justify-content: space-between; font-size: .78rem; color: var(--text-dim); margin-bottom: 6px; }
+  .progress-bar { height: 8px; border-radius: 6px; background: var(--bg-elev-2); overflow: hidden; }
+  .progress-fill { height: 100%; width: 0%; background: linear-gradient(90deg, var(--accent-2), var(--accent-3)); transition: width .4s ease; }
+
+  nav.toc { display: flex; flex-direction: column; gap: 2px; }
+  nav.toc a {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    text-decoration: none;
+    color: var(--text-dim);
+    padding: 9px 10px;
+    border-radius: 10px;
+    font-size: .88rem;
+    transition: background .15s, color .15s;
+  }
+  nav.toc a:hover { background: var(--bg-elev-2); color: var(--text); }
+  nav.toc a.active { background: rgba(255,157,66,.12); color: var(--accent); font-weight: 600; }
+  nav.toc a .check {
+    width: 16px; height: 16px; border-radius: 50%; border: 2px solid var(--border);
+    flex: none; display: flex; align-items: center; justify-content: center; font-size: 10px; color: transparent;
+  }
+  nav.toc a.done .check { background: var(--accent-2); border-color: var(--accent-2); color: #0f1115; }
+
+  main { padding: 40px clamp(20px, 5vw, 60px) 100px; max-width: 900px; }
+
+  header.hero {
+    margin-bottom: 48px;
+  }
+  header.hero h1 {
+    font-size: clamp(1.8rem, 4vw, 2.6rem);
+    margin: 0 0 10px;
+    background: linear-gradient(90deg, var(--accent), var(--accent-2));
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+  }
+  header.hero p { color: var(--text-dim); max-width: 60ch; }
+  .badges { display: flex; gap: 10px; flex-wrap: wrap; margin-top: 16px; }
+  .badge { font-size: .75rem; padding: 5px 10px; border-radius: 999px; background: var(--bg-elev-2); border: 1px solid var(--border); color: var(--text-dim); }
+
+  section.chapter {
+    margin-bottom: 64px;
+    scroll-margin-top: 20px;
+  }
+  section.chapter h2 {
+    font-size: 1.5rem;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 6px;
+  }
+  section.chapter h2 .num {
+    font-size: .8rem;
+    color: var(--bg);
+    background: var(--accent);
+    width: 26px; height: 26px;
+    border-radius: 8px;
+    display: flex; align-items: center; justify-content: center;
+    font-weight: 700;
+  }
+  section.chapter > .lede { color: var(--text-dim); margin-bottom: 22px; }
+
+  .card {
+    background: var(--bg-elev);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    padding: 22px;
+    margin-bottom: 18px;
+    box-shadow: var(--shadow);
+  }
+  .card h3 { margin-top: 0; font-size: 1.05rem; }
+  .grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 18px; }
+  @media (max-width: 680px) { .grid-2 { grid-template-columns: 1fr; } .app { grid-template-columns: 1fr; } .sidebar { position: static; height: auto; } }
+
+  /* ---------- Interactive sim ---------- */
+  .sim {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 24px;
+    align-items: center;
+  }
+  @media (max-width: 680px) { .sim { grid-template-columns: 1fr; } }
+  .sim-visual {
+    position: relative;
+    aspect-ratio: 4/3;
+    border-radius: 10px;
+    overflow: hidden;
+    background: linear-gradient(160deg,#3a2d1f,#1a2a1f 60%, #12181f);
+    border: 1px solid var(--border);
+  }
+  .sim-visual .subject {
+    position: absolute;
+    left: 50%; top: 50%;
+    width: 34%; aspect-ratio: 1;
+    transform: translate(-50%,-50%);
+    background: radial-gradient(circle at 35% 30%, #ffd39a, #d97b2c 70%);
+    border-radius: 14px;
+    transition: filter .25s ease, transform .25s ease;
+  }
+  .sim-visual .bg-blob {
+    position: absolute; border-radius: 50%; opacity: .8; transition: filter .25s ease;
+  }
+  .sim-visual .b1 { width: 26%; aspect-ratio:1; left: 8%; top: 14%; background:#4ade80; }
+  .sim-visual .b2 { width: 20%; aspect-ratio:1; left: 70%; top: 60%; background:#60a5fa; }
+  .sim-visual .b3 { width: 16%; aspect-ratio:1; left: 78%; top: 12%; background:#f472b6; }
+  .sim-visual .grain { position:absolute; inset:0; opacity:0; mix-blend-mode: overlay; pointer-events:none; }
+  .sim-visual .streak { position:absolute; opacity:0; border-radius:14px; background: radial-gradient(circle at 35% 30%, #ffd39a99, #d97b2c66 70%); transition: opacity .2s; }
+
+  .controls-box label { display: block; font-size: .85rem; color: var(--text-dim); margin-bottom: 4px; }
+  .controls-box .row { margin-bottom: 16px; }
+  .controls-box input[type=range] { width: 100%; accent-color: var(--accent); }
+  .controls-box .val { color: var(--accent); font-weight: 700; }
+  .readout { font-size: .82rem; color: var(--text-dim); margin-top: 6px; min-height: 2.4em; }
+
+  /* ---------- Flashcards (Glossar) ---------- */
+  .cards-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(200px,1fr)); gap: 14px; }
+  .flip-card { perspective: 1000px; height: 130px; cursor: pointer; }
+  .flip-inner { position: relative; width: 100%; height: 100%; transition: transform .5s; transform-style: preserve-3d; }
+  .flip-card.flipped .flip-inner { transform: rotateY(180deg); }
+  .flip-face {
+    position: absolute; inset: 0; backface-visibility: hidden;
+    border-radius: 12px; border: 1px solid var(--border);
+    display: flex; align-items: center; justify-content: center;
+    text-align: center; padding: 12px; font-size: .9rem;
+  }
+  .flip-front { background: var(--bg-elev-2); font-weight: 700; }
+  .flip-back { background: linear-gradient(160deg, #23293a, #1c2130); color: var(--text-dim); transform: rotateY(180deg); font-size: .82rem; }
+
+  /* ---------- Composition demo ---------- */
+  .comp-demo { position: relative; aspect-ratio: 3/2; border-radius: 10px; overflow: hidden; background: linear-gradient(180deg,#1a3a5c 0%, #1a3a5c 55%, #2b6b3f 55%, #1c4a29 100%); border: 1px solid var(--border); }
+  .comp-demo .grid-overlay { position: absolute; inset: 0; display: none; }
+  .comp-demo .grid-overlay.show { display: block; }
+  .comp-demo .grid-overlay div { position: absolute; background: rgba(255,255,255,.5); }
+  .comp-demo .gl-v1 { left: 33.333%; top:0; bottom:0; width:1px; }
+  .comp-demo .gl-v2 { left: 66.666%; top:0; bottom:0; width:1px; }
+  .comp-demo .gl-h1 { top: 33.333%; left:0; right:0; height:1px; }
+  .comp-demo .gl-h2 { top: 66.666%; left:0; right:0; height:1px; }
+  .comp-demo .sun { position: absolute; width: 12%; aspect-ratio:1; border-radius:50%; background: radial-gradient(circle, #fff6cf, #ffd35b 60%); left: 30%; top: 42%; box-shadow: 0 0 30px #ffd35b88; }
+  .comp-demo .subject-tree { position:absolute; bottom: 42%; left: 63%; width: 8%; height: 30%; background: #12321c; border-radius: 4px 4px 0 0; }
+
+  /* ---------- Buttons ---------- */
+  button {
+    font-family: inherit;
+    cursor: pointer;
+    border: 1px solid var(--border);
+    background: var(--bg-elev-2);
+    color: var(--text);
+    padding: 8px 14px;
+    border-radius: 9px;
+    font-size: .85rem;
+    transition: background .15s, transform .1s;
+  }
+  button:hover { background: #262c39; }
+  button:active { transform: scale(.97); }
+  button.primary { background: var(--accent); color: #1a1200; border-color: var(--accent); font-weight: 700; }
+  button.primary:hover { filter: brightness(1.08); }
+  button.mode-btn.active { background: var(--accent-3); color: #061421; border-color: var(--accent-3); font-weight: 700; }
+
+  /* ---------- Quiz ---------- */
+  .quiz-q { margin-bottom: 22px; }
+  .quiz-q p.qtext { font-weight: 600; margin-bottom: 10px; }
+  .quiz-options { display: flex; flex-direction: column; gap: 8px; }
+  .quiz-options button { text-align: left; width: 100%; }
+  .quiz-options button.correct { background: rgba(74,222,128,.18); border-color: var(--accent-2); }
+  .quiz-options button.wrong { background: rgba(248,113,113,.18); border-color: var(--danger); }
+  .quiz-result { font-size: 1.1rem; font-weight: 700; margin-top: 10px; }
+
+  footer { text-align: center; color: var(--text-dim); font-size: .8rem; padding: 30px 20px 60px; }
+
+  .fab {
+    position: fixed; right: 20px; bottom: 20px;
+    background: var(--accent); color: #1a1200; border: none;
+    width: 48px; height: 48px; border-radius: 50%;
+    font-size: 1.2rem; box-shadow: var(--shadow);
+    display: none; align-items: center; justify-content: center;
+    cursor: pointer;
+  }
+  .fab.show { display: flex; }
+</style>
+</head>
+<body>
+
+<div class="app">
+  <aside class="sidebar">
+    <div class="brand"><span class="dot"></span> Fotografie Basics</div>
+    <div class="progress-wrap">
+      <div class="progress-label"><span>Fortschritt</span><span id="progressPct">0%</span></div>
+      <div class="progress-bar"><div class="progress-fill" id="progressFill"></div></div>
+    </div>
+    <nav class="toc" id="toc">
+      <a href="#einleitung" data-key="einleitung"><span class="check">✓</span> Einleitung</a>
+      <a href="#belichtungsdreieck" data-key="belichtungsdreieck"><span class="check">✓</span> Belichtungsdreieck</a>
+      <a href="#blende" data-key="blende"><span class="check">✓</span> Blende</a>
+      <a href="#verschlusszeit" data-key="verschlusszeit"><span class="check">✓</span> Verschlusszeit</a>
+      <a href="#iso" data-key="iso"><span class="check">✓</span> ISO</a>
+      <a href="#modi" data-key="modi"><span class="check">✓</span> Kameramodi</a>
+      <a href="#komposition" data-key="komposition"><span class="check">✓</span> Bildkomposition</a>
+      <a href="#brennweite" data-key="brennweite"><span class="check">✓</span> Objektive & Brennweite</a>
+      <a href="#licht" data-key="licht"><span class="check">✓</span> Licht</a>
+      <a href="#glossar" data-key="glossar"><span class="check">✓</span> Glossar</a>
+      <a href="#quiz" data-key="quiz"><span class="check">✓</span> Abschluss-Quiz</a>
+    </nav>
+  </aside>
+
+  <main>
+    <header class="hero" id="einleitung">
+      <h1>Grundlagen der Fotografie</h1>
+      <p>Eine interaktive Lernseite für Einsteiger: Verstehe das Belichtungsdreieck, probiere Blende, Verschlusszeit
+        und ISO live aus, lerne Kompositionsregeln kennen und teste dein Wissen im Abschluss-Quiz. Dein Fortschritt
+        wird automatisch gespeichert.</p>
+      <div class="badges">
+        <span class="badge">📷 Für Einsteiger</span>
+        <span class="badge">⏱️ ca. 20 Min. Lesezeit</span>
+        <span class="badge">🎛️ Interaktive Simulationen</span>
+        <span class="badge">✅ Abschluss-Quiz</span>
+      </div>
+    </header>
+
+    <!-- BELICHTUNGSDREIECK -->
+    <section class="chapter" id="belichtungsdreieck">
+      <h2><span class="num">1</span> Das Belichtungsdreieck</h2>
+      <p class="lede">Blende, Verschlusszeit und ISO steuern gemeinsam, wie hell ein Foto wird — und jede der drei
+        Stellschrauben hat zusätzlich einen eigenen kreativen Effekt.</p>
+      <div class="card">
+        <div class="grid-2">
+          <div>
+            <h3>🔺 Blende (Aperture)</h3>
+            <p style="color:var(--text-dim); font-size:.9rem">Steuert die Lichtmenge & Schärfentiefe (Bokeh).</p>
+          </div>
+          <div>
+            <h3>⏱️ Verschlusszeit (Shutter)</h3>
+            <p style="color:var(--text-dim); font-size:.9rem">Steuert Belichtungsdauer & Bewegungsunschärfe.</p>
+          </div>
+        </div>
+        <div class="grid-2">
+          <div>
+            <h3>🎞️ ISO</h3>
+            <p style="color:var(--text-dim); font-size:.9rem">Steuert die Lichtempfindlichkeit & Bildrauschen.</p>
+          </div>
+          <div>
+            <h3>💡 Faustregel</h3>
+            <p style="color:var(--text-dim); font-size:.9rem">Änderst du einen Wert, musst du meist einen anderen ausgleichen, um die Belichtung gleich zu halten.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- BLENDE SIM -->
+    <section class="chapter" id="blende">
+      <h2><span class="num">2</span> Blende & Schärfentiefe</h2>
+      <p class="lede">Eine <strong>offene Blende</strong> (kleine f-Zahl, z. B. f/1.8) lässt viel Licht durch und
+        erzeugt einen unscharfen Hintergrund (geringe Schärfentiefe) – ideal für Porträts. Eine
+        <strong>geschlossene Blende</strong> (große f-Zahl, z. B. f/16) hält mehr im Bild scharf – ideal für Landschaften.</p>
+      <div class="card sim">
+        <div class="sim-visual" id="apertureVisual">
+          <div class="bg-blob b1"></div>
+          <div class="bg-blob b2"></div>
+          <div class="bg-blob b3"></div>
+          <div class="subject"></div>
+        </div>
+        <div class="controls-box">
+          <div class="row">
+            <label>Blende: <span class="val" id="apertureVal">f/1.8</span></label>
+            <input type="range" id="apertureSlider" min="0" max="100" value="0">
+          </div>
+          <div class="readout" id="apertureReadout">Offene Blende → Hintergrund stark unscharf (schönes Bokeh), wenig im Bild ist scharf. Gut für Porträts.</div>
+        </div>
+      </div>
+    </section>
+
+    <!-- VERSCHLUSSZEIT SIM -->
+    <section class="chapter" id="verschlusszeit">
+      <h2><span class="num">3</span> Verschlusszeit & Bewegung</h2>
+      <p class="lede">Eine <strong>kurze Verschlusszeit</strong> (z. B. 1/1000s) friert Bewegung ein. Eine
+        <strong>lange Verschlusszeit</strong> (z. B. 1/4s) erzeugt Bewegungsunschärfe (z. B. für Lichtspuren oder
+        fließendes Wasser) – dabei ist meist ein Stativ nötig.</p>
+      <div class="card sim">
+        <div class="sim-visual" id="shutterVisual">
+          <div class="streak s1" style="left:26%; top:34%; width:16%;"></div>
+          <div class="streak s2" style="left:20%; top:34%; width:16%;"></div>
+          <div class="streak s3" style="left:14%; top:34%; width:16%;"></div>
+          <div class="subject" style="left:60%;"></div>
+        </div>
+        <div class="controls-box">
+          <div class="row">
+            <label>Verschlusszeit: <span class="val" id="shutterVal">1/1000s</span></label>
+            <input type="range" id="shutterSlider" min="0" max="100" value="0">
+          </div>
+          <div class="readout" id="shutterReadout">Kurze Verschlusszeit → Bewegung wird eingefroren, scharfes Einzelbild. Gut für Sport/Action.</div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ISO SIM -->
+    <section class="chapter" id="iso">
+      <h2><span class="num">4</span> ISO & Bildrauschen</h2>
+      <p class="lede">Ein <strong>niedriger ISO-Wert</strong> (z. B. ISO 100) liefert saubere, rauschfreie Bilder,
+        braucht aber mehr Licht. Ein <strong>hoher ISO-Wert</strong> (z. B. ISO 6400) hellt das Bild bei wenig
+        Licht auf, erzeugt aber sichtbares Bildrauschen (Korn).</p>
+      <div class="card sim">
+        <div class="sim-visual" id="isoVisual">
+          <div class="bg-blob b1"></div>
+          <div class="bg-blob b2"></div>
+          <div class="bg-blob b3"></div>
+          <div class="subject"></div>
+          <svg class="grain" id="isoGrain" width="100%" height="100%">
+            <filter id="noiseFilter"><feTurbulence type="fractalNoise" baseFrequency="0.9" numOctaves="2" stitchTiles="stitch"/></filter>
+            <rect width="100%" height="100%" filter="url(#noiseFilter)"/>
+          </svg>
+        </div>
+        <div class="controls-box">
+          <div class="row">
+            <label>ISO: <span class="val" id="isoVal">100</span></label>
+            <input type="range" id="isoSlider" min="0" max="100" value="0">
+          </div>
+          <div class="readout" id="isoReadout">Niedriger ISO → sauberes Bild ohne Rauschen. Braucht viel Licht oder lange Belichtung.</div>
+        </div>
+      </div>
+    </section>
+
+    <!-- KAMERAMODI -->
+    <section class="chapter" id="modi">
+      <h2><span class="num">5</span> Kameramodi</h2>
+      <p class="lede">Die meisten Kameras bieten vier Hauptmodi. Klicke sie durch, um zu sehen, was du jeweils
+        selbst steuerst.</p>
+      <div class="card">
+        <div style="display:flex; gap:8px; flex-wrap:wrap; margin-bottom:16px;" id="modeButtons">
+          <button class="mode-btn active" data-mode="P">P — Programmautomatik</button>
+          <button class="mode-btn" data-mode="A">A/Av — Blendenpriorität</button>
+          <button class="mode-btn" data-mode="S">S/Tv — Zeitpriorität</button>
+          <button class="mode-btn" data-mode="M">M — Manuell</button>
+        </div>
+        <div id="modeDescription" style="color:var(--text-dim); font-size:.92rem;"></div>
+      </div>
+    </section>
+
+    <!-- KOMPOSITION -->
+    <section class="chapter" id="komposition">
+      <h2><span class="num">6</span> Bildkomposition</h2>
+      <p class="lede">Kompositionsregeln helfen, das Auge des Betrachters gezielt zu lenken. Die bekannteste ist die
+        <strong>Drittel-Regel</strong>: Platziere wichtige Elemente auf den Linien oder Schnittpunkten eines
+        3×3-Rasters statt mittig.</p>
+      <div class="card sim">
+        <div class="comp-demo" id="compDemo">
+          <div class="sun"></div>
+          <div class="subject-tree"></div>
+          <div class="grid-overlay" id="compGrid">
+            <div class="gl-v1"></div><div class="gl-v2"></div><div class="gl-h1"></div><div class="gl-h2"></div>
+          </div>
+        </div>
+        <div class="controls-box">
+          <button id="toggleGrid" class="primary">Drittel-Raster ein/aus</button>
+          <p class="readout">Sonne und Baum sitzen bewusst auf den Rasterlinien/Schnittpunkten statt in der Bildmitte — das wirkt harmonischer als eine zentrierte Komposition.</p>
+          <ul style="color:var(--text-dim); font-size:.88rem; padding-left:18px; margin-top:10px;">
+            <li><strong>Führungslinien:</strong> Wege, Straßen oder Zäune lenken den Blick zum Motiv.</li>
+            <li><strong>Rahmung:</strong> Torbögen, Äste oder Fenster rahmen das Hauptmotiv ein.</li>
+            <li><strong>Perspektive:</strong> Ein tiefer oder hoher Standpunkt macht Bilder spannender als Augenhöhe.</li>
+          </ul>
+        </div>
+      </div>
+    </section>
+
+    <!-- BRENNWEITE -->
+    <section class="chapter" id="brennweite">
+      <h2><span class="num">7</span> Objektive & Brennweite</h2>
+      <p class="lede">Die Brennweite (in mm) bestimmt Bildwinkel und Perspektive.</p>
+      <div class="card grid-2">
+        <div>
+          <h3>Weitwinkel (10–35mm)</h3>
+          <p style="color:var(--text-dim); font-size:.9rem">Großer Bildwinkel, betont Weite/Tiefe. Ideal für Landschaften und Architektur.</p>
+        </div>
+        <div>
+          <h3>Normalbrennweite (35–70mm)</h3>
+          <p style="color:var(--text-dim); font-size:.9rem">Entspricht etwa dem menschlichen Sehwinkel. Vielseitig für Alltag & Reise.</p>
+        </div>
+        <div>
+          <h3>Tele (70–300mm+)</h3>
+          <p style="color:var(--text-dim); font-size:.9rem">Holt entfernte Motive heran, komprimiert die Perspektive. Ideal für Porträts, Sport, Wildlife.</p>
+        </div>
+        <div>
+          <h3>Makro</h3>
+          <p style="color:var(--text-dim); font-size:.9rem">Ermöglicht extreme Nahaufnahmen, z. B. von Insekten oder Details.</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- LICHT -->
+    <section class="chapter" id="licht">
+      <h2><span class="num">8</span> Licht verstehen</h2>
+      <p class="lede">Licht ist das wichtigste Werkzeug in der Fotografie — wichtiger als die Kamera selbst.</p>
+      <div class="card grid-2">
+        <div>
+          <h3>🌅 Golden Hour</h3>
+          <p style="color:var(--text-dim); font-size:.9rem">Die Stunde nach Sonnenaufgang/vor Sonnenuntergang: weiches, warmes Licht — die beliebteste Tageszeit für Fotos.</p>
+        </div>
+        <div>
+          <h3>☀️ Hartes Mittagslicht</h3>
+          <p style="color:var(--text-dim); font-size:.9rem">Starke Schatten & Kontraste. Schwierig für Porträts, gut für grafische/kontrastreiche Bilder.</p>
+        </div>
+        <div>
+          <h3>⚖️ Weißabgleich</h3>
+          <p style="color:var(--text-dim); font-size:.9rem">Sorgt dafür, dass Weiß auch wirklich weiß aussieht — je nach Lichtquelle (Sonne, Glühbirne, Schatten) unterschiedlich.</p>
+        </div>
+        <div>
+          <h3>🪞 Reflektoren & Diffusoren</h3>
+          <p style="color:var(--text-dim); font-size:.9rem">Lenken bzw. weichen Licht — auch einfache weiße Pappe oder ein Vorhang funktionieren.</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- GLOSSAR -->
+    <section class="chapter" id="glossar">
+      <h2><span class="num">9</span> Glossar (Karten umdrehen)</h2>
+      <p class="lede">Klicke auf eine Karte, um die Definition zu sehen.</p>
+      <div class="cards-grid" id="glossaryGrid"></div>
+    </section>
+
+    <!-- QUIZ -->
+    <section class="chapter" id="quiz">
+      <h2><span class="num">10</span> Abschluss-Quiz</h2>
+      <p class="lede">Teste dein Wissen aus den vorherigen Kapiteln.</p>
+      <div class="card" id="quizCard">
+        <div id="quizContainer"></div>
+        <button class="primary" id="quizSubmit">Auswerten</button>
+        <div class="quiz-result" id="quizResult"></div>
+      </div>
+    </section>
+
+    <footer>Grundlagen der Fotografie · Interaktive Lernseite · Dein Fortschritt wird lokal in deinem Browser gespeichert</footer>
+  </main>
+</div>
+
+<button class="fab" id="fabTop" title="Nach oben">↑</button>
+
+<script>
+(function() {
+  "use strict";
+
+  /* ---------- Progress tracking (localStorage) ---------- */
+  const STORAGE_KEY = "fotografie-lernfortschritt";
+  const sections = Array.from(document.querySelectorAll("section.chapter"));
+  const tocLinks = Array.from(document.querySelectorAll("nav.toc a"));
+  let visited = new Set(JSON.parse(localStorage.getItem(STORAGE_KEY) || "[]"));
+
+  function saveProgress() {
+    localStorage.setItem(STORAGE_KEY, JSON.stringify(Array.from(visited)));
+    updateProgressUI();
+  }
+
+  function updateProgressUI() {
+    const total = tocLinks.length;
+    const done = tocLinks.filter(a => visited.has(a.dataset.key)).length;
+    const pct = total ? Math.round((done / total) * 100) : 0;
+    document.getElementById("progressFill").style.width = pct + "%";
+    document.getElementById("progressPct").textContent = pct + "%";
+    tocLinks.forEach(a => a.classList.toggle("done", visited.has(a.dataset.key)));
+  }
+
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      const id = entry.target.id;
+      const link = tocLinks.find(a => a.dataset.key === id);
+      if (entry.isIntersecting) {
+        tocLinks.forEach(a => a.classList.remove("active"));
+        if (link) link.classList.add("active");
+        if (entry.intersectionRatio > 0.35) {
+          visited.add(id);
+          saveProgress();
+        }
+      }
+    });
+  }, { threshold: [0, 0.35, 0.6] });
+  sections.forEach(s => observer.observe(s));
+  updateProgressUI();
+
+  /* ---------- Aperture simulation ---------- */
+  const apertureSlider = document.getElementById("apertureSlider");
+  const apertureVal = document.getElementById("apertureVal");
+  const apertureReadout = document.getElementById("apertureReadout");
+  const apertureVisual = document.getElementById("apertureVisual");
+  const fStops = [1.8, 2.8, 4, 5.6, 8, 11, 16];
+  function updateAperture() {
+    const t = apertureSlider.value / 100;
+    const idx = Math.round(t * (fStops.length - 1));
+    const f = fStops[idx];
+    apertureVal.textContent = "f/" + f;
+    const blur = 8 * (1 - t);
+    apertureVisual.querySelectorAll(".bg-blob").forEach(b => b.style.filter = `blur(${blur}px)`);
+    apertureReadout.textContent = t < 0.4
+      ? "Offene Blende → Hintergrund stark unscharf (schönes Bokeh), wenig im Bild ist scharf. Gut für Porträts."
+      : t < 0.7
+      ? "Mittlere Blende → moderate Schärfentiefe, Hintergrund noch angedeutet unscharf. Vielseitig einsetzbar."
+      : "Geschlossene Blende → fast alles im Bild ist scharf, kaum Bokeh. Gut für Landschaften & Gruppenfotos.";
+  }
+  apertureSlider.addEventListener("input", updateAperture);
+  updateAperture();
+
+  /* ---------- Shutter simulation ---------- */
+  const shutterSlider = document.getElementById("shutterSlider");
+  const shutterVal = document.getElementById("shutterVal");
+  const shutterReadout = document.getElementById("shutterReadout");
+  const shutterVisual = document.getElementById("shutterVisual");
+  const shutterSpeeds = ["1/1000s", "1/500s", "1/250s", "1/125s", "1/60s", "1/15s", "1/4s"];
+  function updateShutter() {
+    const t = shutterSlider.value / 100;
+    const idx = Math.round(t * (shutterSpeeds.length - 1));
+    shutterVal.textContent = shutterSpeeds[idx];
+    const streaks = shutterVisual.querySelectorAll(".streak");
+    streaks.forEach((s, i) => {
+      s.style.opacity = t > 0.3 ? Math.min(1, t) * (1 - i * 0.3) : 0;
+    });
+    shutterReadout.textContent = t < 0.4
+      ? "Kurze Verschlusszeit → Bewegung wird eingefroren, scharfes Einzelbild. Gut für Sport/Action."
+      : t < 0.7
+      ? "Mittlere Verschlusszeit → leichte Bewegungsunschärfe möglich, evtl. Bildstabilisator nötig."
+      : "Lange Verschlusszeit → deutliche Bewegungsunschärfe/Lichtspuren, Stativ empfohlen.";
+  }
+  shutterSlider.addEventListener("input", updateShutter);
+  updateShutter();
+
+  /* ---------- ISO simulation ---------- */
+  const isoSlider = document.getElementById("isoSlider");
+  const isoVal = document.getElementById("isoVal");
+  const isoReadout = document.getElementById("isoReadout");
+  const isoGrain = document.getElementById("isoGrain");
+  const isoValues = [100, 200, 400, 800, 1600, 3200, 6400];
+  function updateIso() {
+    const t = isoSlider.value / 100;
+    const idx = Math.round(t * (isoValues.length - 1));
+    isoVal.textContent = isoValues[idx];
+    isoGrain.style.opacity = (t * 0.45).toFixed(2);
+    isoReadout.textContent = t < 0.4
+      ? "Niedriger ISO → sauberes Bild ohne Rauschen. Braucht viel Licht oder lange Belichtung."
+      : t < 0.7
+      ? "Mittlerer ISO → leichtes Rauschen, meist noch gut nutzbar."
+      : "Hoher ISO → deutliches Bildrauschen (Korn), aber nutzbar bei wenig Licht ohne Blitz/Stativ.";
+  }
+  isoSlider.addEventListener("input", updateIso);
+  updateIso();
+
+  /* ---------- Camera modes ---------- */
+  const modeInfo = {
+    P: "<strong>Programmautomatik:</strong> Die Kamera wählt Blende und Verschlusszeit automatisch. Du kannst meist noch ISO und Belichtungskorrektur anpassen. Gut zum Einstieg.",
+    A: "<strong>Blendenpriorität (A/Av):</strong> Du wählst die Blende (Schärfentiefe), die Kamera berechnet automatisch die passende Verschlusszeit. Der meistgenutzte Modus für Porträts & Landschaften.",
+    S: "<strong>Zeitpriorität (S/Tv):</strong> Du wählst die Verschlusszeit (Bewegungseffekt), die Kamera berechnet automatisch die passende Blende. Ideal bei Sport oder bewegten Motiven.",
+    M: "<strong>Manuell (M):</strong> Du stellst Blende, Verschlusszeit und ISO komplett selbst ein. Volle Kontrolle, erfordert aber mehr Übung."
+  };
+  document.getElementById("modeButtons").addEventListener("click", (e) => {
+    const btn = e.target.closest(".mode-btn");
+    if (!btn) return;
+    document.querySelectorAll(".mode-btn").forEach(b => b.classList.remove("active"));
+    btn.classList.add("active");
+    document.getElementById("modeDescription").innerHTML = modeInfo[btn.dataset.mode];
+  });
+  document.getElementById("modeDescription").innerHTML = modeInfo.P;
+
+  /* ---------- Composition grid toggle ---------- */
+  document.getElementById("toggleGrid").addEventListener("click", () => {
+    document.getElementById("compGrid").classList.toggle("show");
+  });
+
+  /* ---------- Glossary flashcards ---------- */
+  const glossary = [
+    ["Blende (f-Stop)", "Öffnung im Objektiv, die die Lichtmenge steuert. Kleine Zahl = offen = mehr Licht + unscharfer Hintergrund."],
+    ["Verschlusszeit", "Zeitspanne, in der der Sensor Licht einfängt. Kurz = Bewegung eingefroren, lang = Bewegungsunschärfe."],
+    ["ISO", "Lichtempfindlichkeit des Sensors. Hoch = helleres Bild bei wenig Licht, aber mehr Rauschen."],
+    ["Belichtungsdreieck", "Das Zusammenspiel aus Blende, Verschlusszeit und ISO, das die Belichtung eines Fotos bestimmt."],
+    ["Schärfentiefe", "Der Bereich im Bild, der scharf abgebildet wird. Abhängig von Blende, Brennweite und Abstand zum Motiv."],
+    ["Bokeh", "Die ästhetische Qualität der unscharfen Bereiche im Bild, meist im Hintergrund."],
+    ["Brennweite", "Angabe in mm, die Bildwinkel und Vergrößerung des Objektivs bestimmt."],
+    ["Drittel-Regel", "Kompositionsregel: Wichtige Elemente auf ein 3×3-Raster statt in die Bildmitte setzen."],
+    ["Golden Hour", "Die Stunde kurz nach Sonnenaufgang bzw. vor Sonnenuntergang mit weichem, warmem Licht."],
+    ["Weißabgleich", "Einstellung, die Farben je nach Lichtquelle korrekt (neutral weiß) wiedergibt."],
+    ["RAW-Format", "Unkomprimiertes Rohdatenformat der Kamera, das maximale Freiheit bei der Bildbearbeitung bietet."],
+    ["Histogramm", "Grafische Darstellung der Helligkeitsverteilung eines Fotos, hilfreich zur Belichtungskontrolle."]
+  ];
+  const glossaryGrid = document.getElementById("glossaryGrid");
+  glossary.forEach(([term, def]) => {
+    const card = document.createElement("div");
+    card.className = "flip-card";
+    card.innerHTML = `<div class="flip-inner">
+      <div class="flip-face flip-front">${term}</div>
+      <div class="flip-face flip-back">${def}</div>
+    </div>`;
+    card.addEventListener("click", () => card.classList.toggle("flipped"));
+    glossaryGrid.appendChild(card);
+  });
+
+  /* ---------- Quiz ---------- */
+  const quizData = [
+    {
+      q: "Welche Blende erzeugt den unscharfsten Hintergrund?",
+      options: ["f/1.8", "f/8", "f/16", "f/22"],
+      correct: 0
+    },
+    {
+      q: "Welche Verschlusszeit friert schnelle Bewegung am besten ein?",
+      options: ["1/4s", "1/1000s", "1/15s", "1/60s"],
+      correct: 1
+    },
+    {
+      q: "Was passiert bei einem hohen ISO-Wert?",
+      options: ["Das Bild wird schärfer", "Das Bild wird dunkler", "Das Bild wird heller, aber rauschiger", "Die Brennweite ändert sich"],
+      correct: 2
+    },
+    {
+      q: "In welchem Modus wählst du die Blende, während die Kamera die Verschlusszeit berechnet?",
+      options: ["Manuell (M)", "Zeitpriorität (S/Tv)", "Blendenpriorität (A/Av)", "Programmautomatik (P)"],
+      correct: 2
+    },
+    {
+      q: "Wofür steht die Drittel-Regel?",
+      options: [
+        "Motive immer exakt mittig platzieren",
+        "Wichtige Elemente auf Linien/Schnittpunkte eines 3×3-Rasters setzen",
+        "Immer 3 Motive im Bild haben",
+        "Das Bild dreimal belichten"
+      ],
+      correct: 1
+    },
+    {
+      q: "Welche Brennweite eignet sich am besten für Landschaftsaufnahmen mit viel Weite?",
+      options: ["200mm Tele", "50mm Normal", "16mm Weitwinkel", "100mm Makro"],
+      correct: 2
+    }
+  ];
+
+  const quizContainer = document.getElementById("quizContainer");
+  const answers = new Array(quizData.length).fill(null);
+
+  quizData.forEach((item, qi) => {
+    const qDiv = document.createElement("div");
+    qDiv.className = "quiz-q";
+    qDiv.innerHTML = `<p class="qtext">${qi + 1}. ${item.q}</p>
+      <div class="quiz-options">
+        ${item.options.map((opt, oi) => `<button type="button" data-q="${qi}" data-o="${oi}">${opt}</button>`).join("")}
+      </div>`;
+    quizContainer.appendChild(qDiv);
+  });
+
+  quizContainer.addEventListener("click", (e) => {
+    const btn = e.target.closest("button[data-q]");
+    if (!btn) return;
+    const qi = parseInt(btn.dataset.q, 10);
+    const oi = parseInt(btn.dataset.o, 10);
+    answers[qi] = oi;
+    const group = btn.closest(".quiz-options");
+    group.querySelectorAll("button").forEach(b => b.style.outline = "");
+    group.querySelectorAll("button").forEach(b => b.classList.remove("selected"));
+    btn.style.outline = "2px solid var(--accent-3)";
+  });
+
+  document.getElementById("quizSubmit").addEventListener("click", () => {
+    let score = 0;
+    quizData.forEach((item, qi) => {
+      const group = quizContainer.querySelectorAll(".quiz-q")[qi].querySelector(".quiz-options");
+      const buttons = group.querySelectorAll("button");
+      buttons.forEach((b, oi) => {
+        b.classList.remove("correct", "wrong");
+        if (oi === item.correct) b.classList.add("correct");
+        else if (oi === answers[qi] && answers[qi] !== item.correct) b.classList.add("wrong");
+      });
+      if (answers[qi] === item.correct) score++;
+    });
+    const resultEl = document.getElementById("quizResult");
+    resultEl.textContent = `Ergebnis: ${score} von ${quizData.length} richtig`;
+    resultEl.style.color = score === quizData.length ? "var(--accent-2)" : "var(--text)";
+    if (score === quizData.length) {
+      visited.add("quiz");
+      saveProgress();
+    }
+  });
+
+  /* ---------- Back to top ---------- */
+  const fab = document.getElementById("fabTop");
+  window.addEventListener("scroll", () => {
+    fab.classList.toggle("show", window.scrollY > 600);
+  });
+  fab.addEventListener("click", () => window.scrollTo({ top: 0, behavior: "smooth" }));
+
+})();
+</script>
+</body>
+</html>
