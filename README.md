@@ -2,14 +2,9 @@
 
 Eine schlanke, elegante One-Page-Website für Hochzeitsfotografie. Kein Build-Prozess, keine Abhängigkeiten – nur `index.html`, direkt bereit für GitHub Pages.
 
-## Vor dem Online-Gehen: Platzhalter ersetzen
+## Kontaktdaten
 
-Name, E-Mail und Instagram-Link sind bereits eingetragen (Ronny Martens / Martens Hochzeitsfotografie). Im Editor nach `[` suchen, um die restlichen offenen Stellen zu finden:
-
-| Platzhalter | Ersetzen durch |
-|---|---|
-| `[Telefonnummer]` | Deine Telefonnummer |
-| `[Stadt / Region]` | Dein Standort / Einzugsgebiet (kommt an 2 Stellen vor) |
+Name, E-Mail, Telefon, Instagram-Link und Standort (Ludwigsburg / Baden-Württemberg) sind bereits eingetragen. Vor dem Online-Gehen bleibt nur noch:
 
 ### Eigene Fotos einfügen
 
