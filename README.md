@@ -4,15 +4,12 @@ Eine schlanke, elegante One-Page-Website für Hochzeitsfotografie. Kein Build-Pr
 
 ## Vor dem Online-Gehen: Platzhalter ersetzen
 
-Im Editor nach `[` suchen, um alle Stellen zu finden:
+Name, E-Mail und Instagram-Link sind bereits eingetragen (Ronny Martens / Martens Hochzeitsfotografie). Im Editor nach `[` suchen, um die restlichen offenen Stellen zu finden:
 
 | Platzhalter | Ersetzen durch |
 |---|---|
-| `[DEIN NAME]` | Dein Name / Studioname |
-| `[deine@email.de]` | Deine Kontakt-E-Mail (kommt an 3 Stellen vor) |
 | `[Telefonnummer]` | Deine Telefonnummer |
-| `[instagram-handle]` | Dein Instagram-Nutzername (ohne @) |
-| `[Stadt / Region]` | Dein Standort / Einzugsgebiet |
+| `[Stadt / Region]` | Dein Standort / Einzugsgebiet (kommt an 2 Stellen vor) |
 
 ### Eigene Fotos einfügen
 
