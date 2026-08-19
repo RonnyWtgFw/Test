@@ -8,17 +8,17 @@ Name, E-Mail, Telefon, Instagram-Link und Standort (Ludwigsburg / Baden-Württem
 
 ### Eigene Fotos einfügen
 
-Aktuell zeigt die Seite Platzhalter-Kacheln (`<div class="ph-img">…</div>`) für das Porträtfoto und die 9 Galeriebilder. Jede davon ersetzt du durch ein echtes Bild:
+5 der 9 Galerie-Kacheln zeigen bereits echte Fotos aus `bilder/` (komprimiert auf max. 1800px Kantenlänge, EXIF-Metadaten entfernt). Die restlichen 4 Kacheln sowie das Porträtfoto im „Über mich“-Bereich sind noch Platzhalter (`<div class="ph-img">…</div>`). Jede ersetzt du durch ein echtes Bild:
 
 ```html
 <!-- vorher -->
 <div class="ph-img"><div class="ph-icon">…</div></div>
 
 <!-- nachher -->
-<img src="bilder/hochzeit-01.jpg" alt="Brautpaar am See bei Sonnenuntergang" class="ph-img">
+<img src="bilder/hochzeit-06.jpg" alt="Kurze Bildbeschreibung" class="ph-img">
 ```
 
-Am besten legst du einen Ordner `bilder/` an, komprimierst die Fotos vorher (z.B. mit [Squoosh](https://squoosh.app) auf WebP/JPEG, ca. 1600px breite Kante reicht für Web) und verlinkst sie relativ.
+Neue Fotos vorher komprimieren (z.B. mit [Squoosh](https://squoosh.app) auf WebP/JPEG, ca. 1600–1800px lange Kante reicht für Web) und in `bilder/` ablegen.
 
 ### Impressum & Datenschutz
 
