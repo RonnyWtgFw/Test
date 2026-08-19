@@ -22,7 +22,11 @@ Weitere Galeriefotos ergänzt du genauso – neue Fotos vorher komprimieren (z.B
 
 ### Impressum & Datenschutz
 
-Als Fotograf:in mit Kontaktformular bist du in Deutschland zu einem **Impressum** und einer **Datenschutzerklärung** verpflichtet. Die Footer-Links dafür sind als Platzhalter (`href="#"`) angelegt – bitte durch echte Unterseiten ersetzen (z.B. mit einem [Impressum-Generator](https://www.e-recht24.de/impressum-generator.html)).
+`impressum.html` und `datenschutz.html` sind angelegt und im Footer von `index.html` verlinkt. **Eine Stelle fehlt noch zwingend:** deine vollständige Anschrift (Straße, Hausnummer, PLZ) – in beiden Dateien als <span>[Straße und Hausnummer]</span> / <span>[PLZ]</span> markiert. Ohne die ist das Impressum nicht rechtsgültig. Die Umsatzsteuer-ID in `impressum.html` nur eintragen, falls vorhanden, sonst den Abschnitt entfernen.
+
+Die Datenschutzerklärung deckt den aktuellen Stand der Seite ab (Hosting via GitHub Pages, Google Fonts, mailto-Kontaktformular, Instagram-Link, keine Cookies/Tracking). Baust du später weitere Dienste ein (z.B. ein echtes Server-Kontaktformular, Web-Analyse), muss `datenschutz.html` entsprechend ergänzt werden.
+
+Diese Texte sind eine solide Grundlage, aber keine Rechtsberatung – bei Unsicherheiten lohnt sich eine kurze Prüfung durch einen Anwalt oder einen Generator wie [e-recht24.de](https://www.e-recht24.de/impressum-generator.html).
 
 ### Kontaktformular
 
