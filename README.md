@@ -8,17 +8,17 @@ Name, E-Mail, Telefon, Instagram-Link und Standort (Ludwigsburg / Baden-Württem
 
 ### Eigene Fotos einfügen
 
-5 der 9 Galerie-Kacheln zeigen bereits echte Fotos aus `bilder/` (komprimiert auf max. 1800px Kantenlänge, EXIF-Metadaten entfernt). Die restlichen 4 Kacheln sowie das Porträtfoto im „Über mich“-Bereich sind noch Platzhalter (`<div class="ph-img">…</div>`). Jede ersetzt du durch ein echtes Bild:
+Alle 9 Galerie-Kacheln zeigen bereits echte Fotos aus `bilder/` (komprimiert auf max. 1800px Kantenlänge, EXIF-Metadaten entfernt). Nur das Porträtfoto im „Über mich“-Bereich ist noch Platzhalter (`<div class="ph-img">…</div>`) – ersetzt durch ein echtes Bild:
 
 ```html
 <!-- vorher -->
-<div class="ph-img"><div class="ph-icon">…</div></div>
+<div class="ph-img tall"><div class="ph-icon">…</div></div>
 
 <!-- nachher -->
-<img src="bilder/hochzeit-06.jpg" alt="Kurze Bildbeschreibung" class="ph-img">
+<img src="bilder/portrait.jpg" alt="Ronny Martens" class="ph-img tall">
 ```
 
-Neue Fotos vorher komprimieren (z.B. mit [Squoosh](https://squoosh.app) auf WebP/JPEG, ca. 1600–1800px lange Kante reicht für Web) und in `bilder/` ablegen.
+Weitere Galeriefotos ergänzt du genauso – neue Fotos vorher komprimieren (z.B. mit [Squoosh](https://squoosh.app) auf WebP/JPEG, ca. 1600–1800px lange Kante reicht für Web) und in `bilder/` ablegen.
 
 ### Impressum & Datenschutz
 
