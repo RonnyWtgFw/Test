@@ -8,7 +8,7 @@ Name, E-Mail, Telefon, Instagram-Link und Standort (Ludwigsburg / Baden-Württem
 
 ### Eigene Fotos einfügen
 
-Alle 9 Galerie-Kacheln zeigen bereits echte Fotos aus `bilder/` (komprimiert auf max. 1800px Kantenlänge, EXIF-Metadaten entfernt). Der „Über mich“-Bereich kommt aktuell bewusst ohne Porträtfoto aus – möchtest du später eins ergänzen, fügst du im `about-text`-Block in `index.html` ein Bild hinzu, z.B.:
+Alle 10 Galerie-Kacheln zeigen bereits echte Fotos aus `bilder/` (komprimiert auf max. 1800px Kantenlänge, EXIF-Metadaten entfernt). Der „Über mich“-Bereich kommt aktuell bewusst ohne Porträtfoto aus – möchtest du später eins ergänzen, fügst du im `about-text`-Block in `index.html` ein Bild hinzu, z.B.:
 
 ```html
 <img src="bilder/portrait.jpg" alt="Ronny Martens" class="ph-img tall" style="max-width:280px; margin-bottom:24px;">
