@@ -22,7 +22,7 @@ Weitere Galeriefotos ergänzt du genauso – neue Fotos vorher komprimieren (z.B
 
 ### Impressum & Datenschutz
 
-`impressum.html` und `datenschutz.html` sind angelegt und im Footer von `index.html` verlinkt. **Eine Stelle fehlt noch zwingend:** deine vollständige Anschrift (Straße, Hausnummer, PLZ) – in beiden Dateien als <span>[Straße und Hausnummer]</span> / <span>[PLZ]</span> markiert. Ohne die ist das Impressum nicht rechtsgültig. Die Umsatzsteuer-ID in `impressum.html` nur eintragen, falls vorhanden, sonst den Abschnitt entfernen.
+`impressum.html` und `datenschutz.html` sind angelegt, im Footer von `index.html` verlinkt und mit deiner Anschrift (New-York-Ring 45, 71686 Remseck am Neckar) befüllt. Die Umsatzsteuer-ID in `impressum.html` nur eintragen, falls vorhanden, sonst den Abschnitt entfernen.
 
 Die Datenschutzerklärung deckt den aktuellen Stand der Seite ab (Hosting via GitHub Pages, Google Fonts, mailto-Kontaktformular, Instagram-Link, keine Cookies/Tracking). Baust du später weitere Dienste ein (z.B. ein echtes Server-Kontaktformular, Web-Analyse), muss `datenschutz.html` entsprechend ergänzt werden.
 
