@@ -8,14 +8,10 @@ Name, E-Mail, Telefon, Instagram-Link und Standort (Ludwigsburg / Baden-Württem
 
 ### Eigene Fotos einfügen
 
-Alle 9 Galerie-Kacheln zeigen bereits echte Fotos aus `bilder/` (komprimiert auf max. 1800px Kantenlänge, EXIF-Metadaten entfernt). Nur das Porträtfoto im „Über mich“-Bereich ist noch Platzhalter (`<div class="ph-img">…</div>`) – ersetzt durch ein echtes Bild:
+Alle 9 Galerie-Kacheln zeigen bereits echte Fotos aus `bilder/` (komprimiert auf max. 1800px Kantenlänge, EXIF-Metadaten entfernt). Der „Über mich“-Bereich kommt aktuell bewusst ohne Porträtfoto aus – möchtest du später eins ergänzen, fügst du im `about-text`-Block in `index.html` ein Bild hinzu, z.B.:
 
 ```html
-<!-- vorher -->
-<div class="ph-img tall"><div class="ph-icon">…</div></div>
-
-<!-- nachher -->
-<img src="bilder/portrait.jpg" alt="Ronny Martens" class="ph-img tall">
+<img src="bilder/portrait.jpg" alt="Ronny Martens" class="ph-img tall" style="max-width:280px; margin-bottom:24px;">
 ```
 
 Weitere Galeriefotos ergänzt du genauso – neue Fotos vorher komprimieren (z.B. mit [Squoosh](https://squoosh.app) auf WebP/JPEG, ca. 1600–1800px lange Kante reicht für Web) und in `bilder/` ablegen.
