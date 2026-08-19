@@ -2,331 +2,621 @@
 <html lang="de">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no, viewport-fit=cover">
-<meta name="apple-mobile-web-app-capable" content="yes">
-<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-<meta name="apple-mobile-web-app-title" content="Snake">
-<meta name="theme-color" content="#0f0f1a">
-<title>Snake</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Martens Hochzeitsfotografie</title>
+<meta name="description" content="Hochzeitsfotografie von Ronny Martens — einfühlsame, zeitlose Bilder für euren schönsten Tag. Portfolio, Über mich und Kontakt.">
+
+<!-- ============================================================
+     PLATZHALTER-ÜBERSICHT — noch zu ersetzen:
+     1. .ph-img Elemente       → durch echte <img>-Tags mit deinen Fotos ersetzen
+     Suche im Editor nach "[" um alle Stellen schnell zu finden.
+     ============================================================ -->
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,500;1,400&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+
 <style>
-  * { box-sizing: border-box; margin: 0; padding: 0; }
-  html, body {
-    overscroll-behavior: none;
-    touch-action: none;
-    -webkit-user-select: none;
-    user-select: none;
-    -webkit-tap-highlight-color: transparent;
+  :root {
+    --cream: #faf7f2;
+    --cream-dim: #f2ede4;
+    --ink: #2b2621;
+    --ink-soft: #5c554c;
+    --gold: #b08d57;
+    --gold-soft: #d8c2a0;
+    --line: rgba(43,38,33,0.12);
+    --max: 1180px;
   }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  html { scroll-behavior: smooth; }
   body {
-    background: #0f0f1a;
-    color: #e0e0e0;
-    font-family: 'Segoe UI', system-ui, sans-serif;
-    min-height: 100vh;
-    min-height: 100dvh;
+    background: var(--cream);
+    color: var(--ink);
+    font-family: 'Inter', system-ui, sans-serif;
+    font-weight: 300;
+    line-height: 1.7;
+    -webkit-font-smoothing: antialiased;
+  }
+  h1, h2, h3, .logo {
+    font-family: 'Playfair Display', Georgia, serif;
+    font-weight: 500;
+    letter-spacing: 0.01em;
+  }
+  a { color: inherit; text-decoration: none; }
+  img { max-width: 100%; display: block; }
+  .wrap { max-width: var(--max); margin: 0 auto; padding: 0 32px; }
+  .eyebrow {
+    display: block;
+    font-family: 'Inter', sans-serif;
+    font-size: 0.72rem;
+    letter-spacing: 0.28em;
+    text-transform: uppercase;
+    color: var(--gold);
+    margin-bottom: 14px;
+  }
+
+  /* ---------- Nav ---------- */
+  header.nav {
+    position: fixed;
+    top: 0; left: 0; right: 0;
+    z-index: 100;
+    padding: 22px 0;
+    transition: background 0.35s ease, box-shadow 0.35s ease, padding 0.35s ease;
+  }
+  header.nav.scrolled {
+    background: rgba(250,247,242,0.92);
+    backdrop-filter: blur(8px);
+    box-shadow: 0 1px 0 var(--line);
+    padding: 14px 0;
+  }
+  .nav-inner {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+  .logo {
+    font-size: 1.3rem;
+    letter-spacing: 0.03em;
+    color: var(--ink);
+  }
+  header.nav:not(.scrolled) .logo,
+  header.nav:not(.scrolled) .nav-links a {
+    color: #fff;
+  }
+  .nav-links {
+    display: flex;
+    gap: 40px;
+    list-style: none;
+    font-size: 0.85rem;
+    letter-spacing: 0.05em;
+    text-transform: uppercase;
+  }
+  .nav-links a { position: relative; padding-bottom: 4px; }
+  .nav-links a::after {
+    content: '';
+    position: absolute;
+    left: 0; bottom: 0;
+    width: 0%; height: 1px;
+    background: currentColor;
+    transition: width 0.3s ease;
+  }
+  .nav-links a:hover::after { width: 100%; }
+  .nav-toggle {
+    display: none;
+    background: none;
+    border: none;
+    font-size: 1.5rem;
+    cursor: pointer;
+    color: inherit;
+  }
+
+  @media (max-width: 760px) {
+    .nav-links {
+      position: fixed;
+      inset: 0;
+      background: var(--ink);
+      color: #fff;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 32px;
+      font-size: 1.1rem;
+      transform: translateY(-100%);
+      transition: transform 0.4s ease;
+    }
+    .nav-links.open { transform: translateY(0); }
+    .nav-links a { color: #fff; }
+    .nav-toggle { display: block; z-index: 110; }
+    header.nav:not(.scrolled) .nav-toggle { color: #fff; }
+    header.nav.scrolled .nav-toggle { color: var(--ink); }
+  }
+
+  /* ---------- Hero ---------- */
+  .hero {
+    position: relative;
+    height: 100vh;
+    min-height: 560px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    color: #fff;
+    background:
+      linear-gradient(180deg, rgba(20,17,14,0.35) 0%, rgba(20,17,14,0.55) 100%),
+      linear-gradient(135deg, #3a3128 0%, #6b5842 45%, #8f7855 70%, #4a3f32 100%);
+    overflow: hidden;
+  }
+  .hero::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background-image:
+      radial-gradient(circle at 20% 30%, rgba(255,255,255,0.08), transparent 40%),
+      radial-gradient(circle at 80% 70%, rgba(255,255,255,0.06), transparent 45%);
+  }
+  .hero-content { position: relative; z-index: 2; padding: 0 24px; }
+  .hero .eyebrow { color: var(--gold-soft); }
+  .hero h1 {
+    font-size: clamp(2.4rem, 6vw, 4.4rem);
+    line-height: 1.1;
+    margin-bottom: 22px;
+  }
+  .hero p {
+    font-size: 1.05rem;
+    font-weight: 300;
+    max-width: 480px;
+    margin: 0 auto 36px;
+    color: rgba(255,255,255,0.85);
+  }
+  .btn {
+    display: inline-block;
+    border: 1px solid currentColor;
+    padding: 14px 34px;
+    font-size: 0.78rem;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    transition: background 0.3s ease, color 0.3s ease;
+  }
+  .btn-light { color: #fff; }
+  .btn-light:hover { background: #fff; color: var(--ink); }
+  .btn-dark { color: var(--ink); }
+  .btn-dark:hover { background: var(--ink); color: var(--cream); }
+
+  .scroll-cue {
+    position: absolute;
+    bottom: 34px; left: 50%;
+    transform: translateX(-50%);
+    z-index: 2;
+    width: 1px; height: 46px;
+    background: rgba(255,255,255,0.5);
+  }
+  .scroll-cue::after {
+    content: '';
+    position: absolute;
+    top: 0; left: -3px;
+    width: 7px; height: 7px;
+    border-radius: 50%;
+    background: #fff;
+    animation: cue 2.2s ease-in-out infinite;
+  }
+  @keyframes cue {
+    0% { top: 0; opacity: 1; }
+    80% { top: 40px; opacity: 0; }
+    100% { top: 40px; opacity: 0; }
+  }
+
+  /* ---------- Sections generic ---------- */
+  section { padding: 130px 0; }
+  .section-head {
+    text-align: center;
+    max-width: 620px;
+    margin: 0 auto 70px;
+  }
+  .section-head h2 { font-size: clamp(1.9rem, 3.6vw, 2.6rem); }
+  .section-head p { color: var(--ink-soft); margin-top: 16px; }
+
+  /* ---------- About ---------- */
+  .about { background: var(--cream-dim); }
+  .about-text {
+    max-width: 640px;
+    margin: 0 auto;
+  }
+  .about-text .eyebrow { text-align: left; }
+  .about-text h2 { font-size: clamp(1.8rem, 3.2vw, 2.4rem); margin-bottom: 22px; }
+  .about-text p { color: var(--ink-soft); margin-bottom: 18px; }
+  .about-quote {
+    margin-top: 28px;
+    padding-left: 22px;
+    border-left: 2px solid var(--gold);
+    font-family: 'Playfair Display', serif;
+    font-style: italic;
+    color: var(--ink);
+  }
+
+  /* ---------- Placeholder image blocks ---------- */
+  .ph-img {
+    position: relative;
+    width: 100%;
+    aspect-ratio: 4 / 5;
+    border-radius: 2px;
+    background: linear-gradient(150deg, #e4dccd 0%, #cbbb9e 55%, #ab9573 100%);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+  }
+  .ph-img.wide { aspect-ratio: 4 / 3; }
+  .ph-img.square { aspect-ratio: 1 / 1; }
+  .ph-img.tall { aspect-ratio: 3 / 4; }
+  .ph-img::after {
+    content: '';
+    position: absolute; inset: 0;
+    background-image: radial-gradient(circle at 30% 20%, rgba(255,255,255,0.25), transparent 55%);
+  }
+  .ph-icon {
+    position: relative;
+    z-index: 1;
     display: flex;
     flex-direction: column;
     align-items: center;
-    justify-content: center;
-    padding: env(safe-area-inset-top, 20px) 20px env(safe-area-inset-bottom, 20px);
     gap: 10px;
+    color: rgba(43,38,33,0.55);
   }
-  h1 {
-    font-size: 2rem;
-    margin-bottom: 10px;
-    color: #4ade80;
-    text-shadow: 0 0 10px rgba(74, 222, 128, 0.5);
+  .ph-icon svg { width: 30px; height: 30px; opacity: 0.7; }
+  .ph-icon span {
+    font-size: 0.68rem;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
   }
-  .info {
-    display: flex;
-    gap: 30px;
-    margin-bottom: 15px;
-    font-size: 1.1rem;
-  }
-  .info span { color: #4ade80; font-weight: bold; }
-  canvas {
-    background: #1a1a2e;
-    border: 2px solid #4ade80;
-    border-radius: 8px;
-    box-shadow: 0 0 20px rgba(74, 222, 128, 0.3);
-    max-width: 100%;
-    height: auto;
-  }
-  .controls {
-    margin-top: 10px;
-    text-align: center;
-    color: #888;
-    font-size: 0.85rem;
-    max-width: 400px;
-  }
-  .pad {
-    margin-top: 10px;
+  img.ph-img { object-fit: cover; width: 100%; height: 100%; display: block; }
+
+  /* ---------- Gallery ---------- */
+  .gallery-grid {
     display: grid;
-    grid-template-columns: repeat(3, 60px);
-    grid-template-rows: repeat(3, 60px);
+    grid-template-columns: repeat(3, 1fr);
     gap: 6px;
   }
-  .pad button {
-    background: #1a1a2e;
-    color: #4ade80;
-    border: 1px solid #4ade80;
-    border-radius: 8px;
-    font-size: 1.5rem;
-    padding: 0;
-    cursor: pointer;
+  .gallery-item { cursor: pointer; overflow: hidden; }
+  .gallery-item .ph-img { transition: transform 0.6s ease; }
+  .gallery-item:hover .ph-img { transform: scale(1.04); }
+  .gallery-item:nth-child(3n+2) .ph-img { aspect-ratio: 3/4; }
+  @media (max-width: 760px) {
+    .gallery-grid { grid-template-columns: repeat(2, 1fr); }
   }
-  .pad button:active { background: #4ade80; color: #0f0f1a; }
-  .pad .up    { grid-column: 2; grid-row: 1; }
-  .pad .left  { grid-column: 1; grid-row: 2; }
-  .pad .pause { grid-column: 2; grid-row: 2; font-size: 1rem; }
-  .pad .right { grid-column: 3; grid-row: 2; }
-  .pad .down  { grid-column: 2; grid-row: 3; }
-  .overlay {
-    position: fixed;
-    inset: 0;
-    background: rgba(0,0,0,0.85);
+
+  .lightbox {
+    position: fixed; inset: 0;
+    background: rgba(20,17,14,0.94);
     display: none;
     align-items: center;
     justify-content: center;
-    flex-direction: column;
-    gap: 20px;
+    z-index: 200;
+    padding: 40px;
   }
-  .overlay.active { display: flex; }
-  .overlay h2 { font-size: 2.5rem; color: #f87171; }
-  .overlay p { font-size: 1.2rem; }
-  button {
-    background: #4ade80;
-    color: #0f0f1a;
+  .lightbox.open { display: flex; }
+  .lightbox-stage { display: flex; align-items: center; justify-content: center; }
+  .lightbox-stage .ph-img { width: min(600px, 90vw); aspect-ratio: 4/5; }
+  .lightbox-stage img.ph-img {
+    width: auto; height: auto;
+    max-width: min(760px, 88vw); max-height: 85vh;
+    aspect-ratio: auto; object-fit: contain;
+  }
+  .lightbox-close {
+    position: absolute; top: 26px; right: 32px;
+    color: #fff; font-size: 1.8rem; background: none; border: none; cursor: pointer;
+    line-height: 1;
+  }
+  .lightbox-nav {
+    position: absolute; top: 50%; transform: translateY(-50%);
+    background: none; border: none; color: #fff; font-size: 2rem; cursor: pointer;
+    padding: 12px;
+  }
+  .lightbox-prev { left: 12px; }
+  .lightbox-next { right: 12px; }
+
+  /* ---------- Contact ---------- */
+  .contact { background: var(--ink); color: var(--cream); }
+  .contact .eyebrow { color: var(--gold-soft); }
+  .contact .section-head p { color: rgba(250,247,242,0.65); }
+  .contact-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 60px;
+  }
+  .contact-info dl { display: flex; flex-direction: column; gap: 22px; }
+  .contact-info dt {
+    font-size: 0.7rem;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--gold-soft);
+    margin-bottom: 4px;
+  }
+  .contact-info dd { font-size: 1.05rem; }
+  .contact-info a:hover { color: var(--gold-soft); }
+  .socials { display: flex; gap: 18px; margin-top: 34px; }
+  .socials a {
+    width: 42px; height: 42px;
+    border: 1px solid rgba(250,247,242,0.3);
+    border-radius: 50%;
+    display: flex; align-items: center; justify-content: center;
+    transition: border-color 0.3s ease, background 0.3s ease;
+  }
+  .socials a:hover { border-color: var(--gold-soft); background: rgba(216,194,160,0.1); }
+  .socials svg { width: 18px; height: 18px; fill: currentColor; }
+
+  form.contact-form { display: flex; flex-direction: column; gap: 18px; }
+  .form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 18px; }
+  .contact-form label {
+    display: block;
+    font-size: 0.7rem;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: rgba(250,247,242,0.6);
+    margin-bottom: 8px;
+  }
+  .contact-form input,
+  .contact-form textarea {
+    width: 100%;
+    background: transparent;
     border: none;
-    padding: 12px 24px;
-    font-size: 1rem;
-    font-weight: bold;
-    border-radius: 6px;
+    border-bottom: 1px solid rgba(250,247,242,0.3);
+    color: var(--cream);
+    font-family: 'Inter', sans-serif;
+    font-size: 0.95rem;
+    padding: 8px 2px;
+    outline: none;
+    transition: border-color 0.3s ease;
+  }
+  .contact-form input::placeholder,
+  .contact-form textarea::placeholder { color: rgba(250,247,242,0.35); }
+  .contact-form input:focus,
+  .contact-form textarea:focus { border-color: var(--gold-soft); }
+  .contact-form textarea { resize: vertical; min-height: 90px; }
+  .contact-form button {
+    align-self: flex-start;
+    margin-top: 10px;
+    background: none;
     cursor: pointer;
-    transition: transform 0.1s, box-shadow 0.2s;
+    font-family: 'Inter', sans-serif;
   }
-  button:hover {
-    transform: scale(1.05);
-    box-shadow: 0 0 15px rgba(74, 222, 128, 0.6);
+  .form-note {
+    font-size: 0.78rem;
+    color: rgba(250,247,242,0.45);
+    margin-top: -6px;
   }
+  @media (max-width: 820px) {
+    .contact-grid { grid-template-columns: 1fr; gap: 50px; }
+    .form-row { grid-template-columns: 1fr; }
+  }
+
+  /* ---------- Footer ---------- */
+  footer {
+    background: #211c17;
+    color: rgba(250,247,242,0.55);
+    padding: 34px 0;
+    font-size: 0.8rem;
+  }
+  .footer-inner {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 12px;
+  }
+  .footer-links { display: flex; gap: 22px; }
+  .footer-links a:hover { color: var(--gold-soft); }
+
+  ::selection { background: var(--gold-soft); color: var(--ink); }
 </style>
 </head>
 <body>
-  <h1>SNAKE</h1>
-  <div class="info">
-    <div>Score: <span id="score">0</span></div>
-    <div>Highscore: <span id="highscore">0</span></div>
-  </div>
-  <canvas id="game" width="400" height="400"></canvas>
-  <div class="pad" id="pad">
-    <button class="up"    data-dir="up">&uarr;</button>
-    <button class="left"  data-dir="left">&larr;</button>
-    <button class="pause" data-dir="pause">II</button>
-    <button class="right" data-dir="right">&rarr;</button>
-    <button class="down"  data-dir="down">&darr;</button>
-  </div>
-  <div class="controls">
-    Wischen oder Buttons zum Steuern &middot; Pfeiltasten / WASD am Desktop
-  </div>
 
-  <div class="overlay" id="overlay">
-    <h2 id="overlayTitle">Game Over</h2>
-    <p>Score: <span id="finalScore">0</span></p>
-    <button id="restart">Nochmal spielen</button>
+<header class="nav" id="siteNav">
+  <div class="wrap nav-inner">
+    <a href="#home" class="logo">Martens Hochzeitsfotografie</a>
+    <button class="nav-toggle" id="navToggle" aria-label="Menü öffnen" aria-expanded="false">☰</button>
+    <nav>
+      <ul class="nav-links" id="navLinks">
+        <li><a href="#home">Home</a></li>
+        <li><a href="#about">Über mich</a></li>
+        <li><a href="#portfolio">Portfolio</a></li>
+        <li><a href="#kontakt">Kontakt</a></li>
+      </ul>
+    </nav>
   </div>
+</header>
+
+<section class="hero" id="home">
+  <div class="hero-content">
+    <span class="eyebrow">Hochzeitsfotografie · Ludwigsburg</span>
+    <h1>Martens Hochzeitsfotografie</h1>
+    <p>Echte Momente, stille Blicke, große Gefühle — festgehalten mit einem ruhigen, zeitlosen Blick für euren Hochzeitstag.</p>
+    <a href="#kontakt" class="btn btn-light">Termin anfragen</a>
+  </div>
+  <span class="scroll-cue" aria-hidden="true"></span>
+</section>
+
+<section class="about" id="about">
+  <div class="wrap">
+    <div class="about-text">
+      <span class="eyebrow">Über mich</span>
+      <h2>Ich erzähle eure Geschichte in Bildern</h2>
+      <p>Mein Name ist Ronny Martens und ich begleite Brautpaare in Ludwigsburg, Baden-Württemberg und darüber hinaus an ihrem schönsten Tag. Statt gestellter Posen suche ich die leisen, echten Momente dazwischen — ein Lachen, ein Blick, eine Träne der Rührung.</p>
+      <p>Jede Hochzeit ist einzigartig, deshalb nehme ich mir Zeit, euch und eure Geschichte wirklich kennenzulernen, bevor ich zur Kamera greife.</p>
+      <p class="about-quote">„Die schönsten Fotos entstehen dort, wo niemand mehr hinschaut.“</p>
+    </div>
+  </div>
+</section>
+
+<section class="portfolio" id="portfolio">
+  <div class="wrap">
+    <div class="section-head">
+      <span class="eyebrow">Portfolio</span>
+      <h2>Ausgewählte Momente</h2>
+      <p>Ein kleiner Einblick in vergangene Hochzeiten. Klickt auf ein Bild für die Großansicht.</p>
+    </div>
+    <!-- REPLACE: jedes .ph-img durch ein <img src="..." alt="..."> mit echten Fotos ersetzen -->
+    <div class="gallery-grid" id="galleryGrid">
+      <div class="gallery-item"><img class="ph-img" src="bilder/hochzeit-ballons.jpg" alt="Brautpaar lässt gemeinsam weiße Herzluftballons steigen"></div>
+      <div class="gallery-item"><img class="ph-img" src="bilder/hochzeit-kuss-portal.jpg" alt="Brautpaar küsst sich unter einem historischen Torbogen"></div>
+      <div class="gallery-item"><img class="ph-img" src="bilder/hochzeit-herz-haende.jpg" alt="Brautpaar formt von hinten ein Herz mit den Händen"></div>
+      <div class="gallery-item"><img class="ph-img" src="bilder/hochzeit-armband.jpg" alt="Detailaufnahme eines Armbands mit der Aufschrift Trauzeugin"></div>
+      <div class="gallery-item"><img class="ph-img" src="bilder/hochzeit-brautstrauss.jpg" alt="Detailaufnahme eines Brautstraußes aus Trockenblumen und weißen Rosen"></div>
+      <div class="gallery-item"><img class="ph-img" src="bilder/hochzeit-torbogen-efeu.jpg" alt="Brautpaar unter einem efeuberankten Torbogen"></div>
+      <div class="gallery-item"><img class="ph-img" src="bilder/hochzeit-bruecke-weide.jpg" alt="Brautpaar auf einer roten Brücke unter einer Trauerweide"></div>
+      <div class="gallery-item"><img class="ph-img" src="bilder/hochzeit-haende-ringe.jpg" alt="Detailaufnahme der ineinander verschränkten Hände mit Ringen"></div>
+      <div class="gallery-item"><img class="ph-img" src="bilder/hochzeit-blumenbogen.jpg" alt="Brautpaar lächelt sich unter einem Blumenbogen an"></div>
+      <div class="gallery-item"><img class="ph-img" src="bilder/hochzeit-ringe-schachtel.jpg" alt="Eheringe in einer goldenen Glasschachtel mit Moos und Schleierkraut"></div>
+    </div>
+  </div>
+</section>
+
+<div class="lightbox" id="lightbox">
+  <button class="lightbox-close" id="lightboxClose" aria-label="Schließen">&times;</button>
+  <button class="lightbox-nav lightbox-prev" id="lightboxPrev" aria-label="Vorheriges Bild">&larr;</button>
+  <div class="lightbox-stage" id="lightboxStage"></div>
+  <button class="lightbox-nav lightbox-next" id="lightboxNext" aria-label="Nächstes Bild">&rarr;</button>
+</div>
+
+<section class="contact" id="kontakt">
+  <div class="wrap">
+    <div class="section-head">
+      <span class="eyebrow">Kontakt</span>
+      <h2>Lasst uns eure Geschichte planen</h2>
+      <p>Schreibt mir kurz ein paar Eckdaten zu eurer Hochzeit — ich melde mich innerhalb von 48 Stunden zurück.</p>
+    </div>
+    <div class="contact-grid">
+      <div class="contact-info">
+        <dl>
+          <div>
+            <dt>E-Mail</dt>
+            <dd><a href="mailto:martens.ronny@t-online.de">martens.ronny@t-online.de</a></dd>
+          </div>
+          <div>
+            <dt>Telefon</dt>
+            <dd><a href="tel:+4915128181085">+49 151 28181085</a></dd>
+          </div>
+          <div>
+            <dt>Einzugsgebiet</dt>
+            <dd>Ludwigsburg, Baden-Württemberg &amp; deutschlandweit</dd>
+          </div>
+        </dl>
+        <div class="socials">
+          <a href="https://instagram.com/martens_hochzeitsfotografie.de" target="_blank" rel="noopener" aria-label="Instagram">
+            <svg viewBox="0 0 24 24"><path d="M12 2.2c3.2 0 3.58.01 4.85.07 1.17.05 1.97.24 2.43.4a4.9 4.9 0 0 1 1.77 1.15 4.9 4.9 0 0 1 1.15 1.77c.16.46.35 1.26.4 2.43.06 1.27.07 1.65.07 4.85s-.01 3.58-.07 4.85c-.05 1.17-.24 1.97-.4 2.43a4.9 4.9 0 0 1-1.15 1.77 4.9 4.9 0 0 1-1.77 1.15c-.46.16-1.26.35-2.43.4-1.27.06-1.65.07-4.85.07s-3.58-.01-4.85-.07c-1.17-.05-1.97-.24-2.43-.4a4.9 4.9 0 0 1-1.77-1.15 4.9 4.9 0 0 1-1.15-1.77c-.16-.46-.35-1.26-.4-2.43C2.21 15.58 2.2 15.2 2.2 12s.01-3.58.07-4.85c.05-1.17.24-1.97.4-2.43a4.9 4.9 0 0 1 1.15-1.77A4.9 4.9 0 0 1 5.59 1.8c.46-.16 1.26-.35 2.43-.4C9.29 1.34 9.67 1.33 12 1.33m0 1.8c-3.15 0-3.5.01-4.74.07-1 .05-1.54.21-1.9.35-.48.19-.82.41-1.18.77-.36.36-.58.7-.77 1.18-.14.36-.3.9-.35 1.9C3 8.32 2.99 8.67 2.99 12s.01 3.68.07 4.93c.05 1 .21 1.54.35 1.9.19.48.41.82.77 1.18.36.36.7.58 1.18.77.36.14.9.3 1.9.35 1.24.06 1.59.07 4.74.07s3.5-.01 4.74-.07c1-.05 1.54-.21 1.9-.35.48-.19.82-.41 1.18-.77.36-.36.58-.7.77-1.18.14-.36.3-.9.35-1.9.06-1.25.07-1.6.07-4.93s-.01-3.68-.07-4.93c-.05-1-.21-1.54-.35-1.9a3.1 3.1 0 0 0-.77-1.18 3.1 3.1 0 0 0-1.18-.77c-.36-.14-.9-.3-1.9-.35C15.5 4.01 15.15 4 12 4Zm0 3.65A4.35 4.35 0 1 1 7.65 12 4.35 4.35 0 0 1 12 7.65Zm0 1.8A2.55 2.55 0 1 0 14.55 12 2.55 2.55 0 0 0 12 9.45Zm4.54-2.02a1.02 1.02 0 1 1-1.02-1.02 1.02 1.02 0 0 1 1.02 1.02Z"/></svg>
+          </a>
+        </div>
+      </div>
+
+      <!-- Statisches Formular: aktuell per mailto-Fallback. Für ein echtes, serverloses Kontaktformular
+           eignet sich z.B. Formspree oder ein eigenes Backend – siehe README. -->
+      <form class="contact-form" id="contactForm" action="mailto:martens.ronny@t-online.de" method="post" enctype="text/plain">
+        <div class="form-row">
+          <div>
+            <label for="cf-name">Name</label>
+            <input type="text" id="cf-name" name="Name" placeholder="Euer Name" required>
+          </div>
+          <div>
+            <label for="cf-date">Hochzeitsdatum</label>
+            <input type="text" id="cf-date" name="Datum" placeholder="TT.MM.JJJJ">
+          </div>
+        </div>
+        <div>
+          <label for="cf-email">E-Mail</label>
+          <input type="email" id="cf-email" name="Email" placeholder="eure@email.de" required>
+        </div>
+        <div>
+          <label for="cf-message">Nachricht</label>
+          <textarea id="cf-message" name="Nachricht" placeholder="Erzählt mir kurz von euch und eurer Hochzeit …" required></textarea>
+        </div>
+        <p class="form-note">Öffnet euer E-Mail-Programm mit vorausgefüllter Nachricht an martens.ronny@t-online.de.</p>
+        <button type="submit" class="btn btn-light">Nachricht senden</button>
+      </form>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="wrap footer-inner">
+    <span>&copy; <span id="year"></span> Martens Hochzeitsfotografie</span>
+    <div class="footer-links">
+      <a href="impressum.html">Impressum</a>
+      <a href="datenschutz.html">Datenschutz</a>
+    </div>
+  </div>
+</footer>
 
 <script>
 (() => {
-  const canvas = document.getElementById('game');
-  const ctx = canvas.getContext('2d');
-  const scoreEl = document.getElementById('score');
-  const highscoreEl = document.getElementById('highscore');
-  const overlay = document.getElementById('overlay');
-  const overlayTitle = document.getElementById('overlayTitle');
-  const finalScore = document.getElementById('finalScore');
-  const restartBtn = document.getElementById('restart');
+  document.getElementById('year').textContent = new Date().getFullYear();
 
-  const GRID = 20;
-  const CELLS = canvas.width / GRID;
-  const TICK_MS = 100;
+  // Sticky nav background on scroll
+  const nav = document.getElementById('siteNav');
+  const onScroll = () => nav.classList.toggle('scrolled', window.scrollY > 40);
+  onScroll();
+  window.addEventListener('scroll', onScroll, { passive: true });
 
-  let snake, dir, nextDir, food, score, highscore, running, paused, lastTick;
+  // Mobile menu toggle
+  const navToggle = document.getElementById('navToggle');
+  const navLinks = document.getElementById('navLinks');
+  navToggle.addEventListener('click', () => {
+    const open = navLinks.classList.toggle('open');
+    navToggle.setAttribute('aria-expanded', open);
+    navToggle.textContent = open ? '✕' : '☰';
+  });
+  navLinks.querySelectorAll('a').forEach(a => a.addEventListener('click', () => {
+    navLinks.classList.remove('open');
+    navToggle.setAttribute('aria-expanded', 'false');
+    navToggle.textContent = '☰';
+  }));
 
-  highscore = parseInt(localStorage.getItem('snake-highscore') || '0', 10);
-  highscoreEl.textContent = highscore;
+  // Lightbox
+  const items = Array.from(document.querySelectorAll('.gallery-item'));
+  const lightbox = document.getElementById('lightbox');
+  const lightboxStage = document.getElementById('lightboxStage');
+  let current = 0;
 
-  function reset() {
-    snake = [{x: 10, y: 10}, {x: 9, y: 10}, {x: 8, y: 10}];
-    dir = {x: 1, y: 0};
-    nextDir = dir;
-    score = 0;
-    scoreEl.textContent = score;
-    placeFood();
-    running = true;
-    paused = false;
-    overlay.classList.remove('active');
-    lastTick = performance.now();
-  }
-
-  function placeFood() {
-    while (true) {
-      const f = {
-        x: Math.floor(Math.random() * CELLS),
-        y: Math.floor(Math.random() * CELLS),
-      };
-      if (!snake.some(s => s.x === f.x && s.y === f.y)) {
-        food = f;
-        return;
-      }
-    }
-  }
-
-  function step() {
-    dir = nextDir;
-    const head = {x: snake[0].x + dir.x, y: snake[0].y + dir.y};
-
-    if (head.x < 0 || head.x >= CELLS || head.y < 0 || head.y >= CELLS) {
-      return gameOver();
-    }
-    if (snake.some(s => s.x === head.x && s.y === head.y)) {
-      return gameOver();
-    }
-
-    snake.unshift(head);
-
-    if (head.x === food.x && head.y === food.y) {
-      score += 10;
-      scoreEl.textContent = score;
-      placeFood();
+  function renderLightbox() {
+    lightboxStage.innerHTML = '';
+    const img = items[current].querySelector('img');
+    if (img) {
+      const full = document.createElement('img');
+      full.className = 'ph-img';
+      full.src = img.src;
+      full.alt = img.alt;
+      lightboxStage.appendChild(full);
     } else {
-      snake.pop();
+      const label = items[current].querySelector('span').textContent;
+      const box = document.createElement('div');
+      box.className = 'ph-img';
+      box.innerHTML = `<div class="ph-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4"><rect x="3" y="5" width="18" height="14" rx="2"/><circle cx="12" cy="12" r="3.2"/><path d="M8 5l1.4-2h5.2L16 5"/></svg><span></span></div>`;
+      box.querySelector('span').textContent = label;
+      lightboxStage.appendChild(box);
     }
   }
 
-  function gameOver() {
-    running = false;
-    if (score > highscore) {
-      highscore = score;
-      localStorage.setItem('snake-highscore', highscore);
-      highscoreEl.textContent = highscore;
-      overlayTitle.textContent = 'Neuer Highscore!';
-    } else {
-      overlayTitle.textContent = 'Game Over';
-    }
-    finalScore.textContent = score;
-    overlay.classList.add('active');
+  function openLightbox(i) {
+    current = i;
+    renderLightbox();
+    lightbox.classList.add('open');
+  }
+  function closeLightbox() { lightbox.classList.remove('open'); }
+  function step(delta) {
+    current = (current + delta + items.length) % items.length;
+    renderLightbox();
   }
 
-  function draw() {
-    ctx.fillStyle = '#1a1a2e';
-    ctx.fillRect(0, 0, canvas.width, canvas.height);
-
-    ctx.strokeStyle = 'rgba(255,255,255,0.03)';
-    for (let i = 1; i < CELLS; i++) {
-      ctx.beginPath();
-      ctx.moveTo(i * GRID, 0);
-      ctx.lineTo(i * GRID, canvas.height);
-      ctx.moveTo(0, i * GRID);
-      ctx.lineTo(canvas.width, i * GRID);
-      ctx.stroke();
-    }
-
-    ctx.fillStyle = '#f87171';
-    ctx.shadowColor = '#f87171';
-    ctx.shadowBlur = 10;
-    ctx.beginPath();
-    ctx.arc(food.x * GRID + GRID/2, food.y * GRID + GRID/2, GRID/2 - 2, 0, Math.PI * 2);
-    ctx.fill();
-    ctx.shadowBlur = 0;
-
-    snake.forEach((s, i) => {
-      ctx.fillStyle = i === 0 ? '#4ade80' : '#22c55e';
-      ctx.fillRect(s.x * GRID + 1, s.y * GRID + 1, GRID - 2, GRID - 2);
-    });
-
-    if (paused) {
-      ctx.fillStyle = 'rgba(0,0,0,0.6)';
-      ctx.fillRect(0, 0, canvas.width, canvas.height);
-      ctx.fillStyle = '#fff';
-      ctx.font = 'bold 32px sans-serif';
-      ctx.textAlign = 'center';
-      ctx.fillText('PAUSE', canvas.width/2, canvas.height/2);
-    }
-  }
-
-  function loop(now) {
-    if (running && !paused && now - lastTick >= TICK_MS) {
-      step();
-      lastTick = now;
-    }
-    draw();
-    requestAnimationFrame(loop);
-  }
-
-  const KEYS = {
-    ArrowUp: {x: 0, y: -1}, w: {x: 0, y: -1}, W: {x: 0, y: -1},
-    ArrowDown: {x: 0, y: 1}, s: {x: 0, y: 1}, S: {x: 0, y: 1},
-    ArrowLeft: {x: -1, y: 0}, a: {x: -1, y: 0}, A: {x: -1, y: 0},
-    ArrowRight: {x: 1, y: 0}, d: {x: 1, y: 0}, D: {x: 1, y: 0},
-  };
-
+  items.forEach((item, i) => item.addEventListener('click', () => openLightbox(i)));
+  document.getElementById('lightboxClose').addEventListener('click', closeLightbox);
+  document.getElementById('lightboxPrev').addEventListener('click', () => step(-1));
+  document.getElementById('lightboxNext').addEventListener('click', () => step(1));
+  lightbox.addEventListener('click', e => { if (e.target === lightbox) closeLightbox(); });
   document.addEventListener('keydown', e => {
-    if (e.key === ' ') {
-      if (running) paused = !paused;
-      e.preventDefault();
-      return;
-    }
-    const d = KEYS[e.key];
-    if (!d) return;
-    if (d.x === -dir.x && d.y === -dir.y) return;
-    nextDir = d;
-    e.preventDefault();
+    if (!lightbox.classList.contains('open')) return;
+    if (e.key === 'Escape') closeLightbox();
+    if (e.key === 'ArrowLeft') step(-1);
+    if (e.key === 'ArrowRight') step(1);
   });
-
-  function setDir(name) {
-    const map = { up:{x:0,y:-1}, down:{x:0,y:1}, left:{x:-1,y:0}, right:{x:1,y:0} };
-    const d = map[name];
-    if (!d) return;
-    if (d.x === -dir.x && d.y === -dir.y) return;
-    nextDir = d;
-  }
-
-  document.getElementById('pad').addEventListener('click', e => {
-    const btn = e.target.closest('button');
-    if (!btn) return;
-    const action = btn.dataset.dir;
-    if (action === 'pause') {
-      if (running) paused = !paused;
-    } else {
-      setDir(action);
-    }
-  });
-
-  let touchStart = null;
-  canvas.addEventListener('touchstart', e => {
-    if (e.touches.length !== 1) return;
-    touchStart = { x: e.touches[0].clientX, y: e.touches[0].clientY };
-    e.preventDefault();
-  }, { passive: false });
-  canvas.addEventListener('touchmove', e => e.preventDefault(), { passive: false });
-  canvas.addEventListener('touchend', e => {
-    if (!touchStart) return;
-    const t = e.changedTouches[0];
-    const dx = t.clientX - touchStart.x;
-    const dy = t.clientY - touchStart.y;
-    if (Math.abs(dx) < 20 && Math.abs(dy) < 20) { touchStart = null; return; }
-    if (Math.abs(dx) > Math.abs(dy)) {
-      setDir(dx > 0 ? 'right' : 'left');
-    } else {
-      setDir(dy > 0 ? 'down' : 'up');
-    }
-    touchStart = null;
-    e.preventDefault();
-  }, { passive: false });
-
-  restartBtn.addEventListener('click', reset);
-
-  reset();
-  requestAnimationFrame(loop);
 })();
 </script>
 </body>
